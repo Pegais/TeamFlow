@@ -1,0 +1,58 @@
+Remember :
+    In javascript , a function can return another function itself from the return statement.
+    The function returned , will retain its body, including varaible defined, conditions etc.
+    Also the function being returned will act as child of the function from where it is getting returned.
+    Thus, it will also have access to parents variables, through js lexical scoping.
+    Lexical Scoping : It is nothing but looking above the current scope for more info required from current functional scope.
+    Thus when the function being return can access the variables of it parents even if parent function is not in JS stack, after being called is termed as closure.
+
+
+
+Benefit of Closure :
+  See in the Javascript , we dont have public , private variable defenition like java .
+  So when required that we create a private function, any logical statement not defined publically and varaibles,
+  we can create with closures.
+
+Example :
+     
+
+    const myMainPublicContainer=(
+        function(){
+            //body of anonymous functions.
+            let privateVariable =0;
+            function changeValue(value){
+                return privateVariable +=value;
+            }
+            return{
+                increment:function(){
+                    return changeValue(1);
+                },
+                decrement:function(){
+                    return changeValue(-1);
+                },
+                value:function(){
+                    return privateVariable
+                }
+            }
+        }
+    )()
+
+    console.log(myMainPublicContainer);
+    console.log(myMainPublicContainer.increment());
+    
+
+
+In the above example, we have used IFFE (immediatly invoked functional expression), to call the function and store its value in the given above myMainPublicContainer variable.
+This will enable us , to call functions defined in return statement, like increment, decrement , without actually giving access to variable and the core function of changevraible to public.
+
+Remember :
+   In Closure , the design should look like : 
+        function{
+                //some logic
+                //variables
+
+            return anotherFun{
+                //some logic
+                //can access parent varaible(NOTE :always looks for the update state of the parent varaible.)
+            }
+        }
