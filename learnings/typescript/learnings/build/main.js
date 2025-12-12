@@ -14,7 +14,6 @@
  *  Self -documenting, catching errors, and great for teams
  *
  */
-Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Typscript has implicit and explicit type decalaration.
  */

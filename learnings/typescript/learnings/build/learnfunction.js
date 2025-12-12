@@ -4,7 +4,6 @@
 //     active:boolean,
 //     albums:(string |number)[]
 // }
-Object.defineProperty(exports, "__esModule", { value: true });
 //Literal types;
 let usertype;
 //Functions
@@ -58,6 +57,34 @@ const creatError = (errMsg) => {
 const isNumber = (value) => {
     return typeof value === 'number' ? true : false;
 };
-//now we can use isNumber(value) to check any number of given type and handle
-// logical statements.
+//now converting to more or less specific type using as keyword
+let a = 'hello';
+let b = a; //less specific as Two can either be string or number
+let c = a; // more specifc as a value is 'hello' which is of type three
+//Practical viewPOint of assertions
+const addOrConcat = (a, b, c) => {
+    if (c === 'add') {
+        return a + b;
+    }
+    return '' + a + b;
+};
+// now type asserstions come in handy;
+// let myValue:string =addOrConcat(2,2,'concat')
+//in this snipped typescript will throw error saying type 'string|number' not
+// assignable to type string .
+//WHY : here addorConcat function may return either string or number
+// whereas myvalue : need string,
+// we know that return will be string type ,now 
+// we will assert typescript saying we need return as string to fix issue.
+let myValue = addOrConcat(2, 2, 'concat');
+//forced casting or double casting or two assertions
+//unknown type 
+10; // we are asserting 2 time , first changing 10 to 
+//unkown type and than as string.
+//Practical cases with assertions.DOM
+//DOM 
+const img = document.querySelector('img'); //typescript will try to infer what it maybe ;
+img.src; // error detected according to typecript; it may be true in case of DOM manipulation
+//now to tackle this we have to tell typescript, that we know this element exists as we have created the webpage.
+// we can use ! (it is not null assertions)
 //# sourceMappingURL=learnfunction.js.map

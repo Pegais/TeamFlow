@@ -7,7 +7,7 @@
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "nodenext",
+    // "module": "nodenext",
     "target": "esnext",
     "types": [],
     // For nodejs:
@@ -38,7 +38,7 @@
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force",
+    // "moduleDetection": "force",
     "skipLibCheck": true,
     "noEmitOnError": true, //important setting to enable typescript to stop compile js file on wrong typescript error
   },
