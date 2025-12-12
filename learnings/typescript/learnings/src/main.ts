@@ -22,7 +22,7 @@
 //Examples :
 let myName:string="snehal"
 let meaningOfLife:number=11;
-meaningOfLife="sample" //gives error on compiler,
+// meaningOfLife="sample" //gives error on compiler,
 
 let album :any; // can be used for any datatype assignment.
 
@@ -73,8 +73,8 @@ bands.push("sample"); //it works.
 //Tuple;
 
 let myTuple:[string,number,boolean]=["dave",42,true];
-myTuple=mixdeData //gives error ,as the length of tuple is decided.
-myTuple[4]=1//gives error, to position undefined.
+// myTuple=mixdeData //gives error ,as the length of tuple is decided.
+// myTuple[4]=1//gives error, to position undefined.
 
 
 
