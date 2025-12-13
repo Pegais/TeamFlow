@@ -1,6 +1,19 @@
 import type { WorkspaceProps } from "./workspace.types";
 const {v4: uuidv4} = require('uuid');
 import type { WorkspaceRole, workspaceMember} from "./workspace.types";
+
+// REMEMBER:
+// Your Workspace domain:
+
+// Owns: members, status, lifecycle
+
+// Does NOT own: task internals (status, completion logic)
+
+
+
+
+
+
 //creating a workspace class :
 //deciding the operations :
 //1. we can create a workspace.
@@ -90,6 +103,15 @@ class WorkspaceDomain{
            throw new Error("Member already exists in the workspace");
         }
      }
+
+     //guard 7: ensure workspace task status is not active or in progress.
+   private ensureNoActiveTasks(hasActiveTasks:boolean):void{
+     //how will i know task status is active or in progress;
+     //it does not matter as this domain does not handle task status.
+     if(hasActiveTasks===true){
+        throw new Error("Workspace has active or in progress tasks and cannot be deleted");
+     }
+   }
      
     constructor(props:WorkspaceProps){
         this.props=props;
@@ -126,6 +148,20 @@ class WorkspaceDomain{
         this.props.members = this.props.members.filter(member => member.userId !== userId);
         this.props.updatedAt = new Date();
 
+    }
+
+    public deleteWorkspace(creatorId:string,hasActiveTasks:boolean):void{
+        //so before the workspace can be deleted :
+        //ensure workspace is not deleted already.
+        //ensure creator is owner.
+        //ensure the task status of workspace is not active or in progress
+        //remember we dont handle task here ,just a guard required.
+        this.ensureNotDeleted();
+        this.ensureCallerIsOwner(creatorId);
+        this.ensureNoActiveTasks(hasActiveTasks);
+        this.props.status = "deleted";
+        this.props.deletedAt = new Date();
+        this.props.updatedAt = new Date();
     }
  
 }
