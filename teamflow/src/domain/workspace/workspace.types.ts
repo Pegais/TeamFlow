@@ -16,8 +16,6 @@ interface User {
     id: string;
     name: string;
     email: string;
-    role: "owner" | "teamHead" | "member";
-    createdAt: Date;
     updatedAt: Date;
     deletedAt: Date;
 }
@@ -30,7 +28,7 @@ interface Task {
     updatedAt: Date;
     deletedAt: Date;
 }
-interface Project{
+interface Project {
     id: string;
     name: string;
     description: string;
@@ -43,11 +41,19 @@ interface Project{
 //active when team head or owner is present with teams but minmum size is 1.
 //inactive if owner or team head is leaves.
 //deleted if the workspace is deleted by the owner.
+//i need workspace role :very important
+export type WorkspaceRole = "owner" | "teamHead" | "member";
+
+export interface workspaceMember {
+  userId: string;
+  role: "owner" | "teamHead" | "member";
+}
 export interface WorkspaceProps {
     id: string;
     name: string;
     description: string;
-    creator: string;
+    members: workspaceMember[];
+    creatorId: string;
     createdAt: Date;
     updatedAt: Date;
     deletedAt: Date | null | string;
