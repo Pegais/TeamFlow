@@ -35,13 +35,32 @@ class WorkspaceDomain{
 
      // guard2 :ensure at least one owner is present.
      //guard are used for enforcing invariants.
-     private esureOneOwnerExists():void{
+     //this guard is used for checking owner beforer a operations not after it.
+     private ensureOwnerExists():void{
         if(!this.hasatleastOneOwner()){
             throw new Error("Workspace must have at least one owner");
         }
      }
 
+     //owner guard afte a operation to check if the last owner is removed.
+     private ensureNotRemovingLastOwner(userId:string):void{
+        const member = this.props.members.find(m => m.userId === userId);
+        if (!member) return; // existence is checked elsewhere
+      
+        if (member.role !== "owner") return;
+
+        //why this apporach;
+        //it allows deletion of the other memebers and only last owner is not allowed to be removed.
+      
+        const ownerCount = this.props.members.filter(m => m.role === "owner").length;
+      
+        if (ownerCount === 1) {
+          throw new Error("Cannot remove the last owner from the workspace");
+        }
+
+     }
      //guard3 : ensure members exists for removal
+     //userful for removal and updating of the member.
      private ensureMemberExists(userId:string):void{
      if(!this.props.members.some(member => member.userId === userId)){
         throw new Error("Member does not exist in the workspace");
@@ -57,15 +76,56 @@ class WorkspaceDomain{
      }
 
      //guard 5: ensrue workspace team capactiy is not exceeded.
-     private ensureTeamCapacity():void{
+     private ensureCapacityAvailable():void{
        if(this.props.members.length >= 20){
         throw new Error("Workspace team capacity exceeded");
        }
+     }
+
+     //guard 6: ensure member does not exist in the workspace.
+     //useful for addition of the member.
+     private ensureMemberDoesNotExist(userId:string):void{
+        const memberNotPresent = !this.props.members.some(member => member.userId === userId);
+        if(memberNotPresent){
+           throw new Error("Member already exists in the workspace");
+        }
      }
      
     constructor(props:WorkspaceProps){
         this.props=props;
     }
+    
+    //creating pulbic methods:
+    public addMember(creatorId:string,userId:string,role:WorkspaceRole):void{
+        //before adding memeber we check for the following:
+        //1.ensure workspace is not deleted.
+        //2.ensure creator is owner.(Authorization check first...)
+        //3.ensure owner exists.
+        //4ensure team capacity is not exceeded.
+        //ensure member does not exist.
+        this.ensureNotDeleted();
+        this.ensureCallerIsOwner(creatorId);
+        this.ensureOwnerExists();
+        this.ensureCapacityAvailable();
+        this.ensureMemberDoesNotExist(userId);
+        this.props.members.push({userId, role});
+        this.props.updatedAt = new Date();
+    }
+    
+    //removing a member from the workspace.
+    public removeMember(creatorId:string,userId:string):void{
+        //before removing a member we use our guards:
+        //1.ensure workspace is not deleted.
+        //2.ensure creator is owner.
+        //ensure atleast one owner is present after the operation to not to remove the last owner.
+        //ensure member exists.
+        this.ensureNotDeleted();
+        this.ensureCallerIsOwner(creatorId);
+        this.ensureNotRemovingLastOwner(userId);
+        this.ensureMemberExists(userId);
+        this.props.members = this.props.members.filter(member => member.userId !== userId);
+        this.props.updatedAt = new Date();
 
+    }
  
 }
