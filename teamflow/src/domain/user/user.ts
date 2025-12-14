@@ -62,7 +62,7 @@ class User{
     }
 
     //valid domain operations:
-    public createUser(email:string,name:string,status:UserStatus):void{
+    public createUser(email:string,name:string):void{
 
         //make sure no user exists with the same email.
     
@@ -70,7 +70,7 @@ class User{
         //update the user properties.
        this.props.email = email;
        this.props.name = name;
-       this.props.status = status;
+       this.props.status = "active";
        this.props.updatedAt = new Date();
      
     }
@@ -103,10 +103,11 @@ class User{
 
     //delete user
     public deleteUser(email:string):void{
-        //to delete user , user must exist and must be active.
+        //to delete user , user must exist not deleted already  and must be active.
 
   
         this.ensureNotDeleted();
+        this.ensureActive();
         //update the user properties.
         this.props.status = "deleted";
         this.props.updatedAt = new Date();
