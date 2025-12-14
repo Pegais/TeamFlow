@@ -61,6 +61,7 @@ class TaskDomain {
        
         //this is creation, it only sets intial valid state.
         this.props.status="todo";
+        this.props.createdAt=new Date();
         this.props.updatedAt=new Date();
     }
 
