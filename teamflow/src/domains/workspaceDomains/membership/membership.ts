@@ -59,6 +59,8 @@ class MembershipDomain {
     public changeRole(newRole:WorkspaceRole, totalOwners:number){
         //first we need to ensure that the new role transition is valid;
         this.ensureValidRoleChange(this.props.role, newRole);
+
+        this.ensureNotLastOwner(totalOwners);
       
         //then we can update the role;
         this.props.role = newRole;

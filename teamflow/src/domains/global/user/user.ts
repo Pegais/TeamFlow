@@ -72,6 +72,7 @@ class User{
        this.props.name = name;
        this.props.status = "active";
        this.props.updatedAt = new Date();
+       this.props.createdAt = new Date();
      
     }
 
