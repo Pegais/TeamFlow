@@ -156,10 +156,10 @@ class ProjectDomain {
 
     public delete(hasActiveTasks: boolean): void {
        
-        //ensure project can only be deleted if no active tasks exists in the project.
-        this.ensureCanBeDeleted(hasActiveTasks);
         //ensure project is not deleted.
         this.ensureNotDeleted();
+        //ensure project can only be deleted if no active tasks exists in the project.
+        this.ensureCanBeDeleted(hasActiveTasks);
         //ensure allowed transitions are followed.
         this.ensureValidTransition(this.props.status, "deleted");
         //update the status;
