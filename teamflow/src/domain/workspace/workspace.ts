@@ -98,8 +98,8 @@ class WorkspaceDomain{
      //guard 6: ensure member does not exist in the workspace.
      //useful for addition of the member.
      private ensureMemberDoesNotExist(userId:string):void{
-        const memberNotPresent = !this.props.members.some(member => member.userId === userId);
-        if(memberNotPresent){
+        const memberPresent = this.props.members.some(member => member.userId === userId);
+        if(memberPresent){
            throw new Error("Member already exists in the workspace");
         }
      }
