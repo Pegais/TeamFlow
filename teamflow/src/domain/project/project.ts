@@ -178,7 +178,7 @@ class ProjectDomain {
         //add the task to the project;
         this.props.taskIds.push(taskid);
         this.props.updatedAt = new Date();
-        this.props.deletedAt = null;
+        
 
 
     }
@@ -189,7 +189,7 @@ class ProjectDomain {
         //now removing the task from the project;
         this.props.taskIds = this.props.taskIds.filter(task => task !== taskid);
         this.props.updatedAt = new Date();
-        this.props.deletedAt = null;
+        
 
     }
 }
