@@ -11,6 +11,6 @@ export interface InvitationProps {
     workspaceId: string;
     status: InvitationStatus;
     expiresAt: Date ;
-    acceptedAt: Date ;
-    revokedAt: Date ;
+    acceptedAt: Date | null;
+    revokedAt: Date | null;
 }
