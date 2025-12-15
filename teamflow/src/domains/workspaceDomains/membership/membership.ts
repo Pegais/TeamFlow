@@ -56,11 +56,11 @@ class MembershipDomain {
 
     //since our prop state is valid, we just define methods on this valid state :
 
-    public changeRole(newRole:WorkspaceRole, totalOwners:number){
+    public changeRole(newRole:WorkspaceRole){
         //first we need to ensure that the new role transition is valid;
         this.ensureValidRoleChange(this.props.role, newRole);
 
-        this.ensureNotLastOwner(totalOwners);
+  
       
         //then we can update the role;
         this.props.role = newRole;
