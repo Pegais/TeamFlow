@@ -55,7 +55,7 @@ class WorkspaceDomain{
         }
      }
 
-     //owner guard afte a operation to check if the last owner is removed.
+     //owner guard after a operation to check if the last owner is removed.
      private ensureNotRemovingLastOwner(userId:string):void{
         const member = this.props.members.find(m => m.userId === userId);
         if (!member) return; // existence is checked elsewhere
