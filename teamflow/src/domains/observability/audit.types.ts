@@ -10,7 +10,10 @@ export type AuditAction =
   | "PROJECT_DELETED"
   | "TASK_CREATED"
   | "TASK_STARTED"
-  | "TASK_COMPLETED";
+  | "TASK_COMPLETED"
+  | "COMMENT_CREATED"
+  | "COMMENT_EDITED"
+  | "COMMENT_DELETED";
 
 
   export interface AuditProps{
