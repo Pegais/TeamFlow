@@ -21,7 +21,7 @@ class CommentDomain {
     //  //guards for comment domain to protect its invariants.
     //1. ensure the comment is not empty.
     private ensureContentNotEmpty():void{
-        if(!this.props.content && this.props.content.trim() === ''){
+        if(!this.props.content || this.props.content.trim() === ''){
             throw new Error('Comment content can never be empty');
         }
     }

@@ -41,6 +41,13 @@ class AssignmentDomain {
             throw new Error('User is not a member of the workspace');
         }
     }
+
+    //ensure task is assigned to only one user at a time.
+    private ensureNotAlreadyAssigned(): void {
+        if (this.props.assigneeId) {
+            throw new Error('Task is already assigned to a user');
+        }
+    }
     //this ensures the assignment is valid.
     constructor(props: AssignmentProps) {
         this.props = props;
@@ -48,18 +55,21 @@ class AssignmentDomain {
 
     //public methods to assign a task to a user
     public assign(userId: string, taskStatus: 'todo' | 'in_progress', isMemberofworkspace: boolean, isProjectArchived: boolean): void {
-
+        this.ensureNotAlreadyAssigned();
         this.ensureTaskAssignable(taskStatus);
         this.ensureProjectAcceptsAssignment(isProjectArchived);
         this.ensureUserIsWorkspaceMember(isMemberofworkspace);
         this.props.assigneeId = userId;
     }
     public unassign(): void {
+        if (!this.props.assigneeId) {
+            throw new Error('Task is not assigned to any user');
+        }
         this.props.assigneeId = null;
     }
 
     //queries
-    public isAssigneed():string | null{
+    public isAssigneed(): string | null {
         return this.props.assigneeId;
     }
 }
