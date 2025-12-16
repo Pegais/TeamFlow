@@ -8,7 +8,6 @@
 
 
 export type DomainEvent = {
-    readonly eventId: string;
     readonly type: string;
     readonly occuredAt: Date;
 }
@@ -26,3 +25,20 @@ export type DomainEvent = {
 | Comment    | COMMENT_ADDED    |
 
  */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

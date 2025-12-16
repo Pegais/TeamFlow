@@ -1,6 +1,7 @@
+const EventAggregateRoot = require("../../observability/domainEvent/eventAggregateRoot");
 import type { TaskProps, TaskStatus } from "./task.types";
 
-class TaskDomain {
+class TaskDomain extends EventAggregateRoot {
     private props: TaskProps
 
 
@@ -52,6 +53,7 @@ class TaskDomain {
 
 
     constructor(props: TaskProps) {
+        super();
         this.props = props;
     }
 
@@ -63,6 +65,10 @@ class TaskDomain {
         this.props.status="todo";
         this.props.createdAt=new Date();
         this.props.updatedAt=new Date();
+        this.addEvent({
+            type: "TASK_CREATED",
+            occuredAt: new Date(),
+        });
     }
 
     //start() : this methods starts the task from todo to in_progress.
@@ -76,6 +82,10 @@ class TaskDomain {
         //update the status;
         this.props.status="in_progress";
         this.props.updatedAt=new Date();
+        this.addEvent({
+            type: "TASK_STARTED",
+            occuredAt: new Date(),
+        });
     }
 
     //complete() : this methods completes the task from in_progress to completed.
@@ -89,6 +99,11 @@ class TaskDomain {
         //update the status;
         this.props.status="completed";
         this.props.updatedAt=new Date();
+        this.addEvent({
+            type: "TASK_COMPLETED",
+            occuredAt: new Date(),
+        });
     }
 }
 module.exports = TaskDomain;
+
