@@ -47,10 +47,10 @@ class AssignmentDomain {
     }
 
     //public methods to assign a task to a user
-    public assign(userId: string, taskStatus: 'todo' | 'in_progress', isMemberofworkspace: boolean, isProjectAssignable: boolean): void {
+    public assign(userId: string, taskStatus: 'todo' | 'in_progress', isMemberofworkspace: boolean, isProjectArchived: boolean): void {
 
         this.ensureTaskAssignable(taskStatus);
-        this.ensureProjectAcceptsAssignment(isProjectAssignable);
+        this.ensureProjectAcceptsAssignment(isProjectArchived);
         this.ensureUserIsWorkspaceMember(isMemberofworkspace);
         this.props.assigneeId = userId;
     }
@@ -63,3 +63,5 @@ class AssignmentDomain {
         return this.props.assigneeId;
     }
 }
+
+module.exports = AssignmentDomain;
