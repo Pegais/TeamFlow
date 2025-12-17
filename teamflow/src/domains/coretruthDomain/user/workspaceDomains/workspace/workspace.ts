@@ -1,6 +1,7 @@
 import type { WorkspaceProps } from "./workspace.types";
 const {v4: uuidv4} = require('uuid');
 import type { WorkspaceRole, workspaceMember} from "./workspace.types";
+const EventAggregateRoot = require("../../../../observability/domainEvent/eventAggregateRoot");
 
 // REMEMBER:
 // Your Workspace domain:
@@ -29,7 +30,7 @@ import type { WorkspaceRole, workspaceMember} from "./workspace.types";
 //1.cannot add user to workspace if the limit is reached.
 //2. cannot remove or delete task if it is assigned to a user.
 //3. cannot delete workspace if it has tasks assigned to it.
-class WorkspaceDomain{
+class WorkspaceDomain extends EventAggregateRoot{
     private props:WorkspaceProps
 
     //main helper to guard the owner :actual key to workspace.
@@ -114,6 +115,7 @@ class WorkspaceDomain{
    }
      
     constructor(props:WorkspaceProps){
+        super();
         this.props=props;
     }
     
@@ -132,6 +134,12 @@ class WorkspaceDomain{
         this.ensureMemberDoesNotExist(userId);
         this.props.members.push({userId, role});
         this.props.updatedAt = new Date();
+        this.addEvent({
+          type: "WORKSPACE_MEMBER_ADDED",
+          occuredAt: new Date(),
+          workspaceId: this.props.id,
+          userId: userId,
+        })
     }
     
     //removing a member from the workspace.
@@ -147,6 +155,12 @@ class WorkspaceDomain{
         this.ensureMemberExists(userId);
         this.props.members = this.props.members.filter(member => member.userId !== userId);
         this.props.updatedAt = new Date();
+        this.addEvent({
+          type: "WORKSPACE_MEMBER_REMOVED",
+          occuredAt: new Date(),
+          workspaceId: this.props.id,
+          userId: userId,
+        })
 
     }
 
@@ -162,6 +176,12 @@ class WorkspaceDomain{
         this.props.status = "deleted";
         this.props.deletedAt = new Date();
         this.props.updatedAt = new Date();
+        this.addEvent({
+          type: "WORKSPACE_DELETED",
+          occuredAt: new Date(),
+          workspaceId: this.props.id,
+          userId: creatorId,
+        })
     }
  
 }
