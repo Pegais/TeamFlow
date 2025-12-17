@@ -13,4 +13,5 @@ export interface InvitationProps {
     expiresAt: Date ;
     acceptedAt: Date | null;
     revokedAt: Date | null;
+    createdAt: Date;
 }

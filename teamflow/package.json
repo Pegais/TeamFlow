@@ -10,12 +10,11 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@types/node": "^25.0.1",
+    "@types/node": "^25.0.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
   "dependencies": {
     "uuid": "^13.0.0"
-    
   }
 }

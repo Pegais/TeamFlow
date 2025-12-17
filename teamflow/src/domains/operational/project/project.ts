@@ -27,8 +27,9 @@
 
 import type { ProjectProps, ProjectStatus } from "./project.types";
 const { v4: uuidv4 } = require('uuid');
+const EventAggregateRoot = require("../../../observability/domainEvent/eventAggregateRoot");
 
-class ProjectDomain {
+class ProjectDomain extends EventAggregateRoot {
     private props: ProjectProps
 
 
@@ -89,6 +90,7 @@ class ProjectDomain {
         }
     }
     constructor(props: ProjectProps) {
+        super();
         this.props = props;
     }
 
@@ -99,7 +101,7 @@ class ProjectDomain {
         if (!workspaceId || workspaceId.trim() === "") {
             throw new Error("Workspace ID is required");
         }
-        return new ProjectDomain({
+        const project= new ProjectDomain({
             id: uuidv4(),
             name,
             workspaceId,
@@ -109,6 +111,13 @@ class ProjectDomain {
             deletedAt: null,
             status: "active",
         });
+        project.addEvent({
+            type: "PROJECT_CREATED",
+            occuredAt: new Date(),
+            projectId: project.props.id,
+            workspaceId: project.props.workspaceId,
+        })
+        return project;
     }
 
     //renaminf a project :
@@ -136,7 +145,13 @@ class ProjectDomain {
         //update the status;
         this.props.status = "archived";
         this.props.updatedAt = new Date();
-
+        this.addEvent({
+            type: "PROJECT_ARCHIVED",
+            occuredAt: new Date(),
+            projectId: this.props.id,
+            workspaceId: this.props.workspaceId,
+         
+        })
     }
 
 
@@ -150,7 +165,12 @@ class ProjectDomain {
         //update the status;
         this.props.status = "active";
         this.props.updatedAt = new Date();
-        
+        this.addEvent({
+            type: "PROJECT_RESTORED",
+            occuredAt: new Date(),
+            projectId: this.props.id,
+            workspaceId: this.props.workspaceId,
+        })
 
     }
 
@@ -166,6 +186,12 @@ class ProjectDomain {
         this.props.status = "deleted";
         this.props.updatedAt = new Date();
         this.props.deletedAt = new Date();
+        this.addEvent({
+            type: "PROJECT_DELETED",
+            occuredAt: new Date(),
+            projectId: this.props.id,
+            workspaceId: this.props.workspaceId,
+        })
     }
 
 
