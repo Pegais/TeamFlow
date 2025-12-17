@@ -146,7 +146,7 @@ class ProjectDomain extends EventAggregateRoot {
         this.props.status = "archived";
         this.props.updatedAt = new Date();
         this.addEvent({
-            type: "ROJECT_ARCHIVED",
+            type: "PROJECT_ARCHIVED",
             occuredAt: new Date(),
             projectId: this.props.id,
             workspaceId: this.props.workspaceId,
