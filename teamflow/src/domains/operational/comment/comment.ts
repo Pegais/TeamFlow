@@ -13,35 +13,36 @@
  */
 
 import type { CommentProps } from "./comment.type";
-
-class CommentDomain {
+const EventAggregateRoot = require("../../../observability/domainEvent/eventAggregateRoot");
+class CommentDomain extends EventAggregateRoot {
     private props: CommentProps;
 
 
     //  //guards for comment domain to protect its invariants.
     //1. ensure the comment is not empty.
-    private ensureContentNotEmpty():void{
-        if(!this.props.content || this.props.content.trim() === ''){
+    private ensureContentNotEmpty(): void {
+        if (!this.props.content || this.props.content.trim() === '') {
             throw new Error('Comment content can never be empty');
         }
     }
 
     //ensure the comment is not deleted.
-    private ensureNotDeleted():void{
-        if(this.props.deletedAt){
+    private ensureNotDeleted(): void {
+        if (this.props.deletedAt) {
             throw new Error('Comment is deleted and cannot be mutated');
         }
     }
 
     //ensure the comment is either related to a task or a project but not both.
-    private ensureValidContext():void{
-        let hastaskContext =!!this.props.taskId;
-        let hasprojectContext =!!this.props.projectId;
-        if(hastaskContext===hasprojectContext){
+    private ensureValidContext(): void {
+        let hastaskContext = !!this.props.taskId;
+        let hasprojectContext = !!this.props.projectId;
+        if (hastaskContext === hasprojectContext) {
             throw new Error('Comment must be related to either a task or a project but not both');
         }
     }
     constructor(props: CommentProps) {
+        super();
         this.props = props;
         this.ensureValidContext();
         this.ensureContentNotEmpty();
@@ -49,33 +50,55 @@ class CommentDomain {
 
     //static factory :
     public static create(props: CommentProps): CommentDomain {
-        return new CommentDomain({
+        const comment = new CommentDomain({
             ...props,
             createdAt: new Date(),
             updatedAt: new Date(),
             deletedAt: null,
         });
+        comment.addEvent({
+            type: "COMMENT_CREATED",
+            occuredAt: new Date(),
+            commentId: comment.props.id,
+            taskId: comment.props.taskId,
+            projectId: comment.props.projectId,
+        });
+        return comment;
     }
 
     //public methods :
-    public edit(newContent:string):void{
+    public edit(newContent: string): void {
         this.ensureNotDeleted();
-        if(!newContent || newContent.trim() === ''){
+        if (!newContent || newContent.trim() === '') {
             throw new Error('Comment content can never be empty');
         }
         this.props.content = newContent;
         this.props.updatedAt = new Date();
+        this.addEvent({
+            type: "COMMENT_UPDATED",
+            occuredAt: new Date(),
+            commentId: this.props.id,
+            taskId: this.props.taskId,
+            projectId: this.props.projectId,
+        })
     }
-    
-    public delete():void{
+
+    public delete(): void {
         this.ensureNotDeleted();
         this.props.deletedAt = new Date();
         this.props.updatedAt = new Date();
+        this.addEvent({
+            type: "COMMENT_DELETED",
+            occuredAt: new Date(),
+            commentId: this.props.id,
+            taskId: this.props.taskId,
+            projectId: this.props.projectId,
+        })
     }
 
     //Queries :
-    public get data():CommentProps{
+    public get data(): CommentProps {
         return this.props;
     }
-  
+
 }

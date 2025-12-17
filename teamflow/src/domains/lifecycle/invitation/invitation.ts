@@ -6,8 +6,9 @@
 import type { InvitationProps } from "./invitation.types";
 import type workspaceTypes = require("../../coretruthDomain/user/workspaceDomains/workspace/workspace.types");
 import type { InvitationStatus } from "./invitation.types";
+const EventAggregateRoot = require("../../../observability/domainEvent/eventAggregateRoot");
 
-class InvitationDomain {
+class InvitationDomain extends EventAggregateRoot {
     private props: InvitationProps;
 
 
@@ -28,10 +29,27 @@ class InvitationDomain {
 
 
     constructor(props: InvitationProps) {
+        super();
         this.props = props;
     }
 
-
+  //static factory :
+  public static create(props: InvitationProps):InvitationDomain{
+    const invitation = new InvitationDomain({
+        ...props,
+        status: "pending",
+        createdAt: new Date(),
+    });
+    invitation.addEvent({
+        type: "INVITATION_CREATED",
+        occuredAt: new Date(),
+        invitationId: invitation.props.id,
+        workspaceId: invitation.props.workspaceId,
+        email: invitation.props.email,
+        role: invitation.props.role,
+    });
+    return invitation;
+  }
     //public methods:
     public accept(): void {
         //make sure the invitation is pending and not expired:
@@ -40,6 +58,14 @@ class InvitationDomain {
         //update the status to accepted:
         this.props.status = "accepted";
         this.props.acceptedAt = new Date();
+        this.addEvent({
+            type: "INVITATION_ACCEPTED",
+            occuredAt: new Date(),
+            invitationId: this.props.id,
+            workspaceId: this.props.workspaceId,
+            email: this.props.email,
+            role: this.props.role,
+        });
     }
 
     //revoking the invitation:
@@ -51,6 +77,14 @@ class InvitationDomain {
         //update the status to revoked:
         this.props.status = "revoked";
         this.props.revokedAt = new Date();
+        this.addEvent({
+            type: "INVITATION_REVOKED",
+            occuredAt: new Date(),
+            invitationId: this.props.id,
+            workspaceId: this.props.workspaceId,
+            email: this.props.email,
+            role: this.props.role,
+        });
     }
 
     //expired invitation:
@@ -63,6 +97,14 @@ class InvitationDomain {
       
         //update the status to expired:
         this.props.status = "expired";
+        this.addEvent({
+            type: "INVITATION_EXPIRED",
+            occuredAt: new Date(),
+            invitationId: this.props.id,
+            workspaceId: this.props.workspaceId,
+            email: this.props.email,
+            role: this.props.role,
+        });
    
     }
 
