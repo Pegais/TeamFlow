@@ -64,9 +64,11 @@ class AssignmentDomain extends eventAggregateRoot {
         this.props.assigneeId = userId;
         this.addEvent({
             type:'TASK_ASSIGNED',
-            occurredAt:new Date(),
-          actorId:this.props.assigneeId,
-          taskId:this.props.taskId,
+            occuredAt:new Date(),
+            metadata:{
+              taskId:this.props.taskId,
+            assigneeId:this.props.assigneeId,
+          }
         })
     }
     public unassign(): void {
@@ -74,6 +76,14 @@ class AssignmentDomain extends eventAggregateRoot {
             throw new Error('Task is not assigned to any user');
         }
         this.props.assigneeId = null;
+        this.addEvent({
+            type:'TASK_UNASSIGNED',
+            occuredAt:new Date(),
+            metadata:{
+              taskId:this.props.taskId,
+              assigneeId:this.props.assigneeId,
+            }
+        })
     }
 
     //queries
