@@ -161,7 +161,7 @@ function registerSubscribers() {
     });
 
     //invitation domain events :
-    ['INVITATION_CREATED', 'INVITATION_ACCEPTED', 'INVITATION_REJECTED','INVITATION_REVOKED','INVITATION_EXPIRED'].forEach(i => {
+    ['INVITATION_CREATED', 'INVITATION_ACCEPTED','INVITATION_REVOKED','INVITATION_EXPIRED'].forEach(i => {
         on(i, handlers.activityLogs);
         on(i, handlers.invitationProjections);
         on(i, handlers.notify);
