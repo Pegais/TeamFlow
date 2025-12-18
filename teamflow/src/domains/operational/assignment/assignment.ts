@@ -12,8 +12,9 @@
  */
 
 import type { AssignmentProps } from "./assignment.type";
+const eventAggregateRoot = require('../../observability/domainEvent/eventAggregateRoot');
 
-class AssignmentDomain {
+class AssignmentDomain extends eventAggregateRoot {
     private props: AssignmentProps;
 
     //guards for assignment domain to protect its invariants.
@@ -50,6 +51,7 @@ class AssignmentDomain {
     }
     //this ensures the assignment is valid.
     constructor(props: AssignmentProps) {
+        super();
         this.props = props;
     }
 
@@ -60,12 +62,28 @@ class AssignmentDomain {
         this.ensureProjectAcceptsAssignment(isProjectArchived);
         this.ensureUserIsWorkspaceMember(isMemberofworkspace);
         this.props.assigneeId = userId;
+        this.addEvent({
+            type:'TASK_ASSIGNED',
+            occuredAt:new Date(),
+            metadata:{
+              taskId:this.props.taskId,
+            assigneeId:this.props.assigneeId,
+          }
+        })
     }
     public unassign(): void {
         if (!this.props.assigneeId) {
             throw new Error('Task is not assigned to any user');
         }
         this.props.assigneeId = null;
+        this.addEvent({
+            type:'TASK_UNASSIGNED',
+            occuredAt:new Date(),
+            metadata:{
+              taskId:this.props.taskId,
+              assigneeId:this.props.assigneeId,
+            }
+        })
     }
 
     //queries

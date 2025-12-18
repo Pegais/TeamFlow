@@ -10,6 +10,7 @@
 export type DomainEvent = {
     readonly type: string;
     readonly occuredAt: Date;
+    readonly metadata?: Record<string, any>;
 }
 
 /**
