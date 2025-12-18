@@ -12,7 +12,7 @@
  */
 
 import type { AssignmentProps } from "./assignment.type";
-const eventAggregateRoot = require('../../../shared/event-aggregate-root');
+const eventAggregateRoot = require('../../observability/domainEvent/eventAggregateRoot');
 
 class AssignmentDomain extends eventAggregateRoot {
     private props: AssignmentProps;
@@ -65,7 +65,7 @@ class AssignmentDomain extends eventAggregateRoot {
         this.addEvent({
             type:'TASK_ASSIGNED',
             occurredAt:new Date(),
-          actordId:this.props.assigneeId,
+          actorId:this.props.assigneeId,
           taskId:this.props.taskId,
         })
     }
