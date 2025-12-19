@@ -44,7 +44,8 @@ class RemoveWorkspaceMemberUseCase {
             //persist the aggregate
             await this.workspaceRepository.save(workspace);
         } catch (error) {
-            throw new Error('Failed to remove member from workspace');
+            const errorMeessage =error instanceof Error ? error.message : 'error from remove member workspace usecase';
+            throw new Error(errorMeessage);
 
 
         }
