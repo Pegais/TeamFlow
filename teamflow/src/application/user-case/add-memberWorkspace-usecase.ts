@@ -27,8 +27,8 @@ type AddWorkspaceMemberCommand = {
 }
 
 interface workspaceRepository {
-    findById(id: string): InstanceType<typeof WorkspaceDomain>;
-    save(workspace: InstanceType<typeof WorkspaceDomain>): void;
+    findById(id: string): Promise <InstanceType<typeof WorkspaceDomain> |null>;
+    save(workspace: InstanceType<typeof WorkspaceDomain>): Promise<void>;
 }
 
 
@@ -38,11 +38,14 @@ class AddWorkspaceMemberUseCase {
     ) { }
 
     //public method to add member to workspace
-    public execute(command: AddWorkspaceMemberCommand): void {
+    public async execute(command: AddWorkspaceMemberCommand): Promise<void> {
         //load workspace aggregate root
-        const workspace = this.workspaceRepository.findById(command.workspaceId);
+        const workspace = await this.workspaceRepository.findById(command.workspaceId);
+        if (!workspace) {
+            throw new Error('Workspace not found');
+        }
         //call domain method to add member
-        workspace.addMember(command.actorId, command.userId, command.role);
+        await workspace.addMember(command.actorId, command.userId, command.role);
         //pull emmitted domain events
         const events = workspace.pullEvents();
         //publish the events via event bus
@@ -50,7 +53,7 @@ class AddWorkspaceMemberUseCase {
             eventBus.publish(event);
         }
         //save workspace
-        this.workspaceRepository.save(workspace);
+       await this.workspaceRepository.save(workspace);
 
     }
 }
