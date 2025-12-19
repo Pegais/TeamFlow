@@ -45,7 +45,7 @@ class AddWorkspaceMemberUseCase {
             throw new Error('Workspace not found');
         }
         //call domain method to add member
-        await workspace.addMember(command.actorId, command.userId, command.role);
+       workspace.addMember(command.actorId, command.userId, command.role);
         //pull emmitted domain events
         const events = workspace.pullEvents();
         //publish the events via event bus
