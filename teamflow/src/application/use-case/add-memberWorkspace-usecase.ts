@@ -2,10 +2,10 @@
 
 /**
  * Load workspace aggregate root.
- * call domain method to add member.
- * pull emmitted domain events.
- * publishing the events via event bus.
- * persist workpace (later)
+ * Call domain method to add member.
+ * Persist workspace (commit state first).
+ * Pull emitted domain events.
+ * Publish events via event bus (only after successful save).
  */
 
 /**
