@@ -39,21 +39,26 @@ class AddWorkspaceMemberUseCase {
 
     //public method to add member to workspace
     public async execute(command: AddWorkspaceMemberCommand): Promise<void> {
-        //load workspace aggregate root
+        try {
+            //load workspace aggregate root
         const workspace = await this.workspaceRepository.findById(command.workspaceId);
         if (!workspace) {
             throw new Error('Workspace not found');
         }
         //call domain method to add member
-       workspace.addMember(command.actorId, command.userId, command.role);
-        //pull emmitted domain events
-        const events = workspace.pullEvents();
-        //publish the events via event bus
-        for (const event of events) {
-            eventBus.publish(event);
-        }
+        workspace.addMember(command.actorId, command.userId, command.role);
         //save workspace
        await this.workspaceRepository.save(workspace);
+       //pull emmitted domain events
+       const events = workspace.pullEvents();
+       //publish the events via event bus
+       for (const event of events) {
+           eventBus.publish(event);
+       }
+        } catch (error) {
+            const errorMessage = `error from add member workspace usecase : ${error}`;
+            throw new Error(errorMessage);
+        }
 
     }
 }

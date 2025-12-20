@@ -34,15 +34,13 @@ class RemoveWorkspaceMemberUseCase {
             //remove member from workspace
             workspace.removeMember(command.actorId, command.userId);
 
-            
-            //publish the events
-            //events must be published before the aggregate is saved to the repository to avoid race conditions.
+          
+            //persist the aggregate
+            await this.workspaceRepository.save(workspace);
             const events = workspace.pullEvents();
             for (const event of events) {
                 eventBus.publish(event);
             }
-            //persist the aggregate
-            await this.workspaceRepository.save(workspace);
         } catch (error) {
             const errorMeessage = `error from remove member workspace usecase : ${error}`;
             throw new Error(errorMeessage);
