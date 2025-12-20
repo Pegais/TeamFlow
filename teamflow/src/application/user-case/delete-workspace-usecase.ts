@@ -1,0 +1,53 @@
+
+const eventBus = require('../../domains/observability/domainEvent/eventBus');
+const WorkspaceDomain = require('../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace');
+type deleteWorkspaceCommand = {
+    readonly workspaceId: string;
+    readonly actorId: string; //who is performing the action
+    readonly hasActiveTasks: boolean; //whether the workspace has active tasks
+}
+
+
+
+interface workspaceRepository {
+    findById(id: string): Promise<InstanceType<typeof WorkspaceDomain> | null>;
+    save(workspace: InstanceType<typeof WorkspaceDomain>): Promise<void>;
+
+}
+
+
+class DeleteWorkspaceUseCase {
+    constructor(
+        private readonly workspaceRepository: workspaceRepository
+    ){}
+
+    public async execute(command: deleteWorkspaceCommand): Promise<void> {
+        try {
+            //load aggregate
+            const workspace = await this.workspaceRepository.findById(command.workspaceId);
+            if(!workspace){
+                throw new Error("Workspace not found");
+            }
+            workspace.deleteWorkspace(command.actorId, command.hasActiveTasks);
+
+            
+            
+            
+            //save and persist the workspace
+            await this.workspaceRepository.save(workspace);
+            //load all events from the delete event stream
+            const events = workspace.pullEvents();
+
+            //pulishing the events to the event bus;
+            for(const event of events){
+                 eventBus.publish(event);
+            }
+          
+        } catch (error) {
+            const errorMessage = `error from delete workspace usecase : ${error}`;
+            throw new Error(errorMessage);
+        }
+    }
+}
+
+module.exports = DeleteWorkspaceUseCase;
