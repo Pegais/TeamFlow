@@ -41,7 +41,7 @@ class DeleteWorkspaceUseCase {
             for(const event of events){
                 await EventBus.publish(event);
             }
-            return workspace;
+          
         } catch (error) {
             const errorMessage = `error from delete workspace usecase : ${error}`;
             throw new Error(errorMessage);
