@@ -130,6 +130,13 @@ class ProjectDomain extends EventAggregateRoot {
 
         this.props.name = name;
         this.props.updatedAt = new Date();
+        this.addEvent({
+            type: "PROJECT_RENAMED",
+            occuredAt: new Date(),
+            projectId: this.props.id,
+            workspaceId: this.props.workspaceId,
+            newName: name,
+        })
 
 
     }

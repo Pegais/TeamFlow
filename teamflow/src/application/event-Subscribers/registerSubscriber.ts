@@ -132,7 +132,7 @@ function registerSubscribers() {
     });
 
     //project domain events :
-    ['PROJECT_CREATED', 'PROJECT_RESTORED', 'PROJECT_DELETED', 'PROJECT_ARCHIVED'].forEach(p => {
+    ['PROJECT_CREATED', 'PROJECT_RESTORED', 'PROJECT_DELETED', 'PROJECT_ARCHIVED','PROJECT_RENAMED'].forEach(p => {
         on(p, handlers.activityLogs);
         on(p, handlers.projectProjections);
         on(p, handlers.notify);
