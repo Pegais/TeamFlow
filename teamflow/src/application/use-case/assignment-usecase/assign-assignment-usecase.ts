@@ -10,7 +10,7 @@ type assignAssignmentUseCaseCommand = {
     isProjectArchived: boolean//if the project is archived;
 }
 interface assignAssignmentUseCaseRepository{
-    findById(id:string):Promise<InstanceType<typeof AssignmentDomain> | null>;
+    findByTaskId(id:string):Promise<InstanceType<typeof AssignmentDomain> | null>;
     save(assignment:InstanceType<typeof AssignmentDomain>):Promise<void>;
 }
 class AssignAssignmentUseCase{
@@ -21,7 +21,7 @@ class AssignAssignmentUseCase{
     public async execute(command:assignAssignmentUseCaseCommand):Promise<void>{
         try {
             //loadint the task entity for which we need to assign the task;
-            const assignment=await this.assignAssignmentUseCaseRepository.findById(command.taskId);
+            const assignment=await this.assignAssignmentUseCaseRepository.findByTaskId(command.taskId);
             if(!assignment){
                 throw new Error(`Assignment for task with id ${command.taskId} not found`);
             }
