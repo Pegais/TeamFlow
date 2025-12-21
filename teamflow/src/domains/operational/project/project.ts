@@ -211,6 +211,13 @@ class ProjectDomain extends EventAggregateRoot {
         //add the task to the project;
         this.props.taskIds.push(taskid);
         this.props.updatedAt = new Date();
+        this.addEvent({
+            type: "TASK_ADDED_TO_PROJECT",
+            occuredAt: new Date(),
+            projectId: this.props.id,
+            workspaceId: this.props.workspaceId,
+            taskId: taskid,
+        })
         
 
 
@@ -222,7 +229,13 @@ class ProjectDomain extends EventAggregateRoot {
         //now removing the task from the project;
         this.props.taskIds = this.props.taskIds.filter(task => task !== taskid);
         this.props.updatedAt = new Date();
-        
+        this.addEvent({
+            type: "TASK_REMOVED_FROM_PROJECT",
+            occuredAt: new Date(),
+            projectId: this.props.id,
+            workspaceId: this.props.workspaceId,
+            taskId: taskid,
+        })
 
     }
 }
