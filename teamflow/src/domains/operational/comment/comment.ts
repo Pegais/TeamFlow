@@ -102,3 +102,5 @@ class CommentDomain extends EventAggregateRoot {
     }
 
 }
+
+module.exports = CommentDomain;
