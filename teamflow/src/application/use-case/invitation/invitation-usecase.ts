@@ -1,5 +1,5 @@
 const InvitationDomain = require('../../../domains/lifecycle/invitation/invitation');
-const eventBus = require('../../../domains/observability/domainEvent/eventBus');
+const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
 import type { WorkspaceRole } from '../../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace.types';
 const { v4: uuidv4 } = require('uuid');
 
@@ -29,10 +29,7 @@ class CreateInvitationUseCase {
             //saving the invitation entity;
             await this.createInvitationUseCaseRepository.save(invitation);
             //publishing the events;
-            const events = invitation.pullEvents();
-            for (const event of events) {
-                eventBus.publish(event);
-            }
+          EventDispatcher.from(invitation);
         } catch (error) {
             const errorMessage =`Failed to create invitation for email ${command.email} and workspace with id ${command.workspaceId} because of ${error}`;
             throw new Error(errorMessage,{cause:error});

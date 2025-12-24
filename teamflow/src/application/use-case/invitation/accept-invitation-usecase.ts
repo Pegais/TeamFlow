@@ -1,6 +1,5 @@
 const InvitationDomain = require('../../../domains/lifecycle/invitation/invitation');
-const eventBus = require('../../../domains/observability/domainEvent/eventBus');
-
+const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
 type acceptInvitationUseCaseCommand = {
     invitationId: string;
 }
@@ -24,10 +23,7 @@ class AcceptInvitationUseCase{
             invitation.accept();
             await this.acceptInvitationUseCaseRepository.save(invitation);
             //publishing the events;
-            const events=invitation.pullEvents();
-            for(const event of events){
-                eventBus.publish(event);
-            }
+            EventDispatcher.from(invitation);
         } catch (error) {
             const errorMessage =`Failed to accept invitation with id ${command.invitationId} because of ${error}`;
             throw new Error(errorMessage,{cause:error});
