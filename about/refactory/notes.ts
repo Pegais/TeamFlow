@@ -41,3 +41,27 @@
 //     }
 // }
 //**********************************************************************************************************/
+
+
+// [ Domain Method ]
+//       |
+//       v
+// addEvent(...)
+//       |
+//       v
+// EventAggregateRoot stores events /also pullevents logic here
+//       |
+//       v
+// Use Case finishes
+//       |
+//       v
+// EventDispatcher.from(aggregate)
+//       |
+//       v
+// aggregate.pullEvents()
+//       |
+//       v
+// EventBus.publish(event)
+//       |
+//       v
+// Subscribers react

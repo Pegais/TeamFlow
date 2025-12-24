@@ -118,6 +118,20 @@ class WorkspaceDomain extends EventAggregateRoot{
         super();
         this.props=props;
     }
+    //adding a static method to create a workspace with at least one owner.
+    public static create(ownerId:string):WorkspaceDomain{
+      const now = new Date();
+        return new WorkspaceDomain({
+          ...this.props,
+          id: uuidv4(),
+          members: [{userId: ownerId, role: 'owner'}],
+          createdAt: now,
+          updatedAt: now,
+          deletedAt: null,
+          status: 'active',
+        
+        });
+    }
     
     //creating pulbic methods:
     public addMember(creatorId:string,userId:string,role:WorkspaceRole):void{

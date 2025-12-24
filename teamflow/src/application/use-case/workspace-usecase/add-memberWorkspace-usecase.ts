@@ -32,15 +32,20 @@ interface workspaceRepository {
 
 
 class AddWorkspaceMemberUseCase {
+    private workspaceRepository: workspaceRepository
     constructor(
-        private workspaceRepository: workspaceRepository
-    ) { }
+        workspaceRepository: workspaceRepository
+    ) { 
+        this.workspaceRepository = workspaceRepository;
+    }
 
     //public method to add member to workspace
     public async execute(command: AddWorkspaceMemberCommand): Promise<void> {
         try {
             //load workspace aggregate root
         const workspace = await this.workspaceRepository.findById(command.workspaceId);
+        console.log('workspace:', workspace);
+        
         if (!workspace) {
             throw new Error('Workspace not found');
         }
