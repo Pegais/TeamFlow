@@ -1,4 +1,4 @@
-import type { WorkspaceRole } from '../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace.types';
+import type { WorkspaceRole } from '../../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace.types';
 const WorkspaceDomain = require('../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace');
 const eventBus = require('../../domains/observability/domainEvent/eventBus');
 

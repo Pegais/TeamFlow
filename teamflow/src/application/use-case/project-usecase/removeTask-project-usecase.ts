@@ -40,3 +40,4 @@ class RemoveTaskFromProjectUseCase{
         }
     }
 }
+module.exports = RemoveTaskFromProjectUseCase;

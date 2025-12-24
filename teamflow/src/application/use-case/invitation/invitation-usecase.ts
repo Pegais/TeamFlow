@@ -7,7 +7,6 @@ type createinvitationUseCaseCommand = {
     email: string;
     role: WorkspaceRole;
     workspaceId: string;
-
 }
 
 interface createInvitationUseCaseRepository {
@@ -21,18 +20,11 @@ class CreateInvitationUseCase {
     public async execute(command: createinvitationUseCaseCommand): Promise<void> {
         try {
             //creating the invitation entity;
-            // Calculate expiration date (default 7 days)
-            const expiresAt = new Date();
-            
-
             const invitation = InvitationDomain.create({
                 id: uuidv4(),
                 email: command.email,
                 role: command.role,
                 workspaceId: command.workspaceId,
-                expiresAt,
-                acceptedAt: null,
-                revokedAt: null,
             });
             //saving the invitation entity;
             await this.createInvitationUseCaseRepository.save(invitation);

@@ -1,6 +1,6 @@
 
-const eventBus = require('../../domains/observability/domainEvent/eventBus');
-const WorkspaceDomain = require('../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace');
+const eventBus = require('../../../domains/observability/domainEvent/eventBus');
+const WorkspaceDomain = require('../../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace');
 type deleteWorkspaceCommand = {
     readonly workspaceId: string;
     readonly actorId: string; //who is performing the action
