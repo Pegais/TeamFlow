@@ -1,8 +1,7 @@
 // create project usecase
 
 const ProjectDomain = require('../../../domains/operational/project/project');
-const eventBus=require('../../domains/observability/domainEvent/eventBus');
-
+const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
 
 type createProjectUseCaseCommand={
     name:string;//project name
@@ -27,10 +26,7 @@ class CreateProjectUseCase{
         await this.projectRepository.save(project);
 
         //now we need to publish the event
-        const events= project.pullEvents();
-        for(const event of events){
-            eventBus.publish(event);
-        }
+        EventDispatcher.from(project);
         } catch (error) {
             const errorMessage=`Failed to create project: ${error as Error}`;
             throw new Error(errorMessage);
