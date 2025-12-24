@@ -173,6 +173,7 @@ class WorkspaceDomain extends EventAggregateRoot{
         this.ensureNotRemovingLastOwner(userId);
         this.ensureMemberExists(userId);
         this.props.members = this.props.members.filter(member => member.userId !== userId);
+        this.props.userids = this.props.userids.filter(id => id !== userId);
         this.props.updatedAt = new Date();
         this.addEvent({
           type: "WORKSPACE_MEMBER_REMOVED",
