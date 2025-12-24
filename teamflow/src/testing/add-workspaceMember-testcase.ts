@@ -35,7 +35,7 @@ eventBus.subscribe('WORKSPACE_MEMBER_ADDED',(event:any)=>subscriber.handle(event
 /**
  * creating a workspace domain instance :
  */
-const workspace = WorkspaceDomain.create('user1');
+const workspace = WorkspaceDomain.create('user1','workspace 1','workspace 1 description');
 
 
 //creating a workspace repository instance :

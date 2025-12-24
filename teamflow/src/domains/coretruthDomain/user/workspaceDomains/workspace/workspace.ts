@@ -119,17 +119,21 @@ class WorkspaceDomain extends EventAggregateRoot{
         this.props=props;
     }
     //adding a static method to create a workspace with at least one owner.
-    public static create(ownerId:string):WorkspaceDomain{
+    public static create(ownerId:string,name:string,description:string):WorkspaceDomain{
       const now = new Date();
         return new WorkspaceDomain({
-          ...this.props,
+          name: name,
+          description: description,
           id: uuidv4(),
           members: [{userId: ownerId, role: 'owner'}],
           createdAt: now,
           updatedAt: now,
           deletedAt: null,
           status: 'active',
-        
+          creatorId: ownerId,
+          userids: [ownerId],
+          taskids: [],
+          projectids: [],
         });
     }
     
@@ -147,6 +151,7 @@ class WorkspaceDomain extends EventAggregateRoot{
         this.ensureCapacityAvailable();
         this.ensureMemberDoesNotExist(userId);
         this.props.members.push({userId, role});
+        this.props.userids.push(userId);
         this.props.updatedAt = new Date();
         this.addEvent({
           type: "WORKSPACE_MEMBER_ADDED",
