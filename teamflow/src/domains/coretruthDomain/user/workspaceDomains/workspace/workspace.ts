@@ -118,6 +118,24 @@ class WorkspaceDomain extends EventAggregateRoot{
         super();
         this.props=props;
     }
+    //adding a static method to create a workspace with at least one owner.
+    public static create(ownerId:string,name:string,description:string):WorkspaceDomain{
+      const now = new Date();
+        return new WorkspaceDomain({
+          name: name,
+          description: description,
+          id: uuidv4(),
+          members: [{userId: ownerId, role: 'owner'}],
+          createdAt: now,
+          updatedAt: now,
+          deletedAt: null,
+          status: 'active',
+          creatorId: ownerId,
+          userids: [ownerId],
+          taskids: [],
+          projectids: [],
+        });
+    }
     
     //creating pulbic methods:
     public addMember(creatorId:string,userId:string,role:WorkspaceRole):void{
@@ -133,6 +151,7 @@ class WorkspaceDomain extends EventAggregateRoot{
         this.ensureCapacityAvailable();
         this.ensureMemberDoesNotExist(userId);
         this.props.members.push({userId, role});
+        this.props.userids.push(userId);
         this.props.updatedAt = new Date();
         this.addEvent({
           type: "WORKSPACE_MEMBER_ADDED",
@@ -154,6 +173,7 @@ class WorkspaceDomain extends EventAggregateRoot{
         this.ensureNotRemovingLastOwner(userId);
         this.ensureMemberExists(userId);
         this.props.members = this.props.members.filter(member => member.userId !== userId);
+        this.props.userids = this.props.userids.filter(id => id !== userId);
         this.props.updatedAt = new Date();
         this.addEvent({
           type: "WORKSPACE_MEMBER_REMOVED",
