@@ -1,3 +1,7 @@
+/**
+ * EVENT DISPATCHER NOTES :
+ */
+
 //First major refactory : 
     //pull emmitted domain events
     //    const events = workspace.pullEvents();
@@ -36,3 +40,4 @@
 //         }
 //     }
 // }
+//**********************************************************************************************************/
