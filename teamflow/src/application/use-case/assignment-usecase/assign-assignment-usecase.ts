@@ -1,5 +1,5 @@
 const AssignmentDomain = require('../../../domains/operational/assignment/assignment');
-const eventBus = require('../../../domains/observability/domainEvent/eventBus');
+const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
 
 
 type assignAssignmentUseCaseCommand = {
@@ -29,10 +29,7 @@ class AssignAssignmentUseCase{
             assignment.assign(command.userId, command.taskStatus, command.isMemberofworkspace, command.isProjectArchived);
             await this.assignAssignmentUseCaseRepository.save(assignment);
             //publishing the events;
-            const events=assignment.pullEvents();
-            for(const event of events){
-                eventBus.publish(event);
-            }
+           EventDispatcher.from(assignment);
         } catch (error) {
             const errorMessage =`Failed to assign task with id ${command.taskId} to user with id ${command.userId} because of ${error}`;
             throw new Error(errorMessage,{cause:error});

@@ -1,6 +1,5 @@
 const TaskDomain = require('../../../domains/operational/task/task');
-const eventBus=require('../../../domains/observability/domainEvent/eventBus');
-
+const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
 type startTaskUseCaseCommand={
     taskId:string;//id of the task;
 }
@@ -28,10 +27,7 @@ class StartTaskUseCase{
             task.start();
             await this.taskRepository.save(task);
             //publishing the events;
-            const events=task.pullEvents();
-            for(const event of events){
-                eventBus.publish(event);
-            }
+           EventDispatcher.from(task);
         } catch (error) {
             const errorMessage =`Failed to start task with id ${command.taskId} because of ${error}`;
             throw new Error(errorMessage,{cause:error});

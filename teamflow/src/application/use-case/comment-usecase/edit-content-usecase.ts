@@ -1,6 +1,5 @@
 const CommentDomain = require('../../../domains/operational/comment/comment');
-const eventBus=require('../../../domains/observability/domainEvent/eventBus');
-
+const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
 
 type editContentUseCaseCommand={
     commentId:string;
@@ -27,11 +26,7 @@ class EditContentUseCase{
             comment.edit(command.newContent);
             await this.editContentUseCaseRepository.save(comment);
             //publishing the events;
-            const events=comment.pullEvents();
-
-            for(const event of events){
-                eventBus.publish(event);
-            }
+            EventDispatcher.from(comment);
         } catch (error) {
             const errorMessage =`Failed to edit content of comment with id ${command.commentId} because of ${error}`;
             throw new Error(errorMessage,{cause:error});

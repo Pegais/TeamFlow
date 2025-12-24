@@ -1,6 +1,5 @@
 const ProjectDomain = require('../../../domains/operational/project/project');
-const eventBus=require('../../../domains/observability/domainEvent/eventBus');
-
+const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
 type restoreProjectUseCaseCommand={
     projectId:string;
 }
@@ -26,10 +25,7 @@ class RestoreProjectUseCase{
             await this.projectRepository.save(project);
 
             //publishing the events;
-            const events= project.pullEvents();
-            for(const event of events){
-                eventBus.publish(event);
-            }
+           EventDispatcher.from(project);
         } catch (error) {
             const errorMessage=`Failed to restore project: ${error as Error}`;
             throw new Error(errorMessage);

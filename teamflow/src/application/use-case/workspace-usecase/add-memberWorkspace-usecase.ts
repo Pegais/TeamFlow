@@ -14,10 +14,9 @@
  */
 
 //defining the command object, in DDD we dont pass raw params we give commands.
-import type { WorkspaceRole } from '../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace.types';
-const WorkspaceDomain = require('../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace');
-const eventBus = require('../../domains/observability/domainEvent/eventBus');
-
+import type { WorkspaceRole } from '../../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace.types';
+const WorkspaceDomain = require('../../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace');
+const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
 
 type AddWorkspaceMemberCommand = {
     workspaceId: string;
@@ -50,11 +49,7 @@ class AddWorkspaceMemberUseCase {
         //save workspace
        await this.workspaceRepository.save(workspace);
        //pull emmitted domain events
-       const events = workspace.pullEvents();
-       //publish the events via event bus
-       for (const event of events) {
-           eventBus.publish(event);
-       }
+    EventDispatcher.from(workspace);
         } catch (error) {
             const errorMessage = `error from add member workspace usecase : ${error}`;
             throw new Error(errorMessage);

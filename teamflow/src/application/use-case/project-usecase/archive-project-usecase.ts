@@ -1,6 +1,5 @@
 const ProjectDomain = require('../../../domains/operational/project/project');
-const eventBus=require('../../../domains/observability/domainEvent/eventBus');
-
+const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
 
 // project archive use case;
 
@@ -27,11 +26,8 @@ class ArchiveProjectUseCase{
             project.archive();
 
             await this.projectRepository.save(project);
-
-            const events= project.pullEvents();
-            for(const event of events){
-                eventBus.publish(event);
-            }
+            EventDispatcher.from(project);
+          
         } catch (error) {
             const errorMessage=`Failed to archive project: ${error as Error}`;
             throw new Error(errorMessage);

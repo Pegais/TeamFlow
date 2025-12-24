@@ -1,6 +1,5 @@
 const CommentDomain = require('../../../domains/operational/comment/comment');
-const eventBus=require('../../../domains/observability/domainEvent/eventBus');
-
+const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
 type deleteCommentUseCaseCommand={
     commentId:string;
 }
@@ -24,10 +23,7 @@ class DeleteCommentUseCase{
             comment.delete();
             await this.deleteCommentUseCaseRepository.save(comment);
             //publishing the events;
-            const events=comment.pullEvents();
-            for(const event of events){
-                eventBus.publish(event);
-            }
+            EventDispatcher.from(comment);
         } catch (error) {
             const errorMessage =`Failed to delete comment with id ${command.commentId} because of ${error}`;
             throw new Error(errorMessage,{cause:error});

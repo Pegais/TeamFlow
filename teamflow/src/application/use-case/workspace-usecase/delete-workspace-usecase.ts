@@ -1,6 +1,6 @@
 
-const eventBus = require('../../domains/observability/domainEvent/eventBus');
-const WorkspaceDomain = require('../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace');
+const WorkspaceDomain = require('../../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace');
+const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
 type deleteWorkspaceCommand = {
     readonly workspaceId: string;
     readonly actorId: string; //who is performing the action
@@ -36,12 +36,7 @@ class DeleteWorkspaceUseCase {
             //save and persist the workspace
             await this.workspaceRepository.save(workspace);
             //load all events from the delete event stream
-            const events = workspace.pullEvents();
-
-            //pulishing the events to the event bus;
-            for(const event of events){
-                 eventBus.publish(event);
-            }
+           EventDispatcher.from(workspace);
           
         } catch (error) {
             const errorMessage = `error from delete workspace usecase : ${error}`;

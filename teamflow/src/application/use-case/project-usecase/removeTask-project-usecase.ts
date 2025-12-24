@@ -1,6 +1,5 @@
 const ProjectDomain = require('../../../domains/operational/project/project');
-const eventBus=require('../../../domains/observability/domainEvent/eventBus');
-
+const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
 
 type removeTaskFromProjectUseCaseCommand={
     projectId:string;//id of the project;
@@ -30,13 +29,11 @@ class RemoveTaskFromProjectUseCase{
             project.remove(command.taskId);
             await this.props.save(project);
             //publishing the events;
-            const events =project.pullEvents();
-            for(const event of events){
-                eventBus.publish(event);
-            }
+            EventDispatcher.from(project);
         } catch (error) {
             const errorMessage =`Failed to remove task from project with id ${command.projectId} because of ${error}`;
             throw new Error(errorMessage);
         }
     }
 }
+module.exports = RemoveTaskFromProjectUseCase;
