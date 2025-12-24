@@ -1,7 +1,6 @@
 import type { WorkspaceRole } from '../../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace.types';
 const WorkspaceDomain = require('../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace');
-const eventBus = require('../../domains/observability/domainEvent/eventBus');
-
+const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
 
 
 type removeWorkspaceMemberCommand = {
@@ -37,10 +36,7 @@ class RemoveWorkspaceMemberUseCase {
           
             //persist the aggregate
             await this.workspaceRepository.save(workspace);
-            const events = workspace.pullEvents();
-            for (const event of events) {
-                eventBus.publish(event);
-            }
+          EventDispatcher.from(workspace);
         } catch (error) {
             const errorMeessage = `error from remove member workspace usecase : ${error}`;
             throw new Error(errorMeessage);
