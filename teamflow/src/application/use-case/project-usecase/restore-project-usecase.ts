@@ -1,5 +1,5 @@
-const ProjectDomain = require('../../../domains/operational/project/project');
-const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
+import ProjectDomain from '../../../domains/operational/project/project';
+import EventDispatcher from '../../event-dispatcher/eventDispatcher';
 type restoreProjectUseCaseCommand={
     projectId:string;
 }
@@ -33,4 +33,4 @@ class RestoreProjectUseCase{
     }
 }
 
-module.exports = RestoreProjectUseCase;
+export default RestoreProjectUseCase;

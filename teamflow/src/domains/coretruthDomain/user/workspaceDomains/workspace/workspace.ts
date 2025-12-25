@@ -1,7 +1,7 @@
 import type { WorkspaceProps } from "./workspace.types";
-const {v4: uuidv4} = require('uuid');
+import { v4 as uuidv4 } from 'uuid';
 import type { WorkspaceRole, workspaceMember} from "./workspace.types";
-const EventAggregateRoot = require("../../../../observability/domainEvent/eventAggregateRoot");
+import EventAggregateRoot from "../../../../observability/domainEvent/eventAggregateRoot";
 
 // REMEMBER:
 // Your Workspace domain:
@@ -206,4 +206,4 @@ class WorkspaceDomain extends EventAggregateRoot{
  
 }
 
-module.exports = WorkspaceDomain;
+export default WorkspaceDomain;

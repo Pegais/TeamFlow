@@ -80,7 +80,7 @@
  * projections : notification read models
  * 
  */
-const eventBus = require('../../domains/observability/domainEvent/eventBus');
+import eventBus from '../../domains/observability/domainEvent/eventBus';
 import type { DomainEvent } from '../../domains/observability/domainEvent/domainEvent.types';
 
 const handlers = {
@@ -169,4 +169,4 @@ function registerSubscribers() {
 
 }
 
-module.exports = registerSubscribers;
+export default registerSubscribers;

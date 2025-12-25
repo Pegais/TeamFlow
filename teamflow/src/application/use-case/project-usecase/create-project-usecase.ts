@@ -1,7 +1,7 @@
 // create project usecase
 
-const ProjectDomain = require('../../../domains/operational/project/project');
-const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
+import ProjectDomain from '../../../domains/operational/project/project';
+import EventDispatcher from '../../event-dispatcher/eventDispatcher';
 
 type createProjectUseCaseCommand={
     name:string;//project name
@@ -35,4 +35,4 @@ class CreateProjectUseCase{
     }
 }
 
-module.exports=CreateProjectUseCase;
+export default CreateProjectUseCase;

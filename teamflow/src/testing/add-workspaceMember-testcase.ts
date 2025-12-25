@@ -1,6 +1,6 @@
-const AddWorkspaceMemberUseCase = require('../application/use-case/workspace-usecase/add-memberWorkspace-usecase');
-const eventBus = require('../domains/observability/domainEvent/eventBus');
-const WorkspaceDomain = require('../domains/coretruthDomain/user/workspaceDomains/workspace/workspace');
+import AddWorkspaceMemberUseCase from '../application/use-case/workspace-usecase/add-memberWorkspace-usecase';
+import eventBus from '../domains/observability/domainEvent/eventBus';
+import WorkspaceDomain from '../domains/coretruthDomain/user/workspaceDomains/workspace/workspace';
 
 /**
  * creating a fake repository for the workspace domain :

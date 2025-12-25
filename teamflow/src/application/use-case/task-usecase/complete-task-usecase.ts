@@ -1,5 +1,5 @@
-const TaskDomain = require('../../../domains/operational/task/task');
-const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
+import TaskDomain from '../../../domains/operational/task/task';
+import EventDispatcher from '../../event-dispatcher/eventDispatcher';
 
 type completeTaskUseCaseCommand={
     taskId:string;//id of the task;
@@ -31,4 +31,4 @@ class CompleteTaskUseCase{
     }
 }
 
-module.exports = CompleteTaskUseCase;
+export default CompleteTaskUseCase;

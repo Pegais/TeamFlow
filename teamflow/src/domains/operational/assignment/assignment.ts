@@ -12,9 +12,9 @@
  */
 
 import type { AssignmentProps } from "./assignment.type";
-const eventAggregateRoot = require('../../observability/domainEvent/eventAggregateRoot');
+import EventAggregateRoot from '../../observability/domainEvent/eventAggregateRoot';
 
-class AssignmentDomain extends eventAggregateRoot {
+class AssignmentDomain extends EventAggregateRoot {
     private props: AssignmentProps;
 
     //guards for assignment domain to protect its invariants.
@@ -92,4 +92,4 @@ class AssignmentDomain extends eventAggregateRoot {
     }
 }
 
-module.exports = AssignmentDomain;
+export default AssignmentDomain;

@@ -4,9 +4,9 @@
  */
 
 import type { InvitationProps } from "./invitation.types";
-import type workspaceTypes = require("../../coretruthDomain/user/workspaceDomains/workspace/workspace.types");
+import type { WorkspaceRole } from "../../coretruthDomain/user/workspaceDomains/workspace/workspace.types";
 import type { InvitationStatus } from "./invitation.types";
-const EventAggregateRoot = require("../../../observability/domainEvent/eventAggregateRoot");
+import EventAggregateRoot from "../../../observability/domainEvent/eventAggregateRoot";
 
 class InvitationDomain extends EventAggregateRoot {
     private props: InvitationProps;
@@ -117,4 +117,4 @@ class InvitationDomain extends EventAggregateRoot {
     }
 }
 
-module.exports = InvitationDomain;
+export default InvitationDomain;

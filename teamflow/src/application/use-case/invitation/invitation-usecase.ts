@@ -1,7 +1,7 @@
-const InvitationDomain = require('../../../domains/lifecycle/invitation/invitation');
-const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
+import InvitationDomain from '../../../domains/lifecycle/invitation/invitation';
+import EventDispatcher from '../../event-dispatcher/eventDispatcher';
 import type { WorkspaceRole } from '../../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace.types';
-const { v4: uuidv4 } = require('uuid');
+import { v4 as uuidv4 } from 'uuid';
 
 type createinvitationUseCaseCommand = {
     email: string;
@@ -36,4 +36,4 @@ class CreateInvitationUseCase {
         }
     }
 }
-module.exports = CreateInvitationUseCase;
+export default CreateInvitationUseCase;

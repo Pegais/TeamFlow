@@ -1,5 +1,5 @@
-const AssignmentDomain = require('../../../domains/operational/assignment/assignment');
-const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
+import AssignmentDomain from '../../../domains/operational/assignment/assignment';
+import EventDispatcher from '../../event-dispatcher/eventDispatcher';
 
 
 type assignAssignmentUseCaseCommand = {
@@ -36,4 +36,4 @@ class AssignAssignmentUseCase{
         }
     }
 }
-module.exports = AssignAssignmentUseCase;
+export default AssignAssignmentUseCase;

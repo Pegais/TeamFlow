@@ -1,7 +1,7 @@
 
 
 
-const WorkspaceDomain = require('../../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace');
+import WorkspaceDomain from '../../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace';
 /**
  * Test to check the creation of a workspace
  * Assumptions: the workspace has atleast one owner to be valid workspace.

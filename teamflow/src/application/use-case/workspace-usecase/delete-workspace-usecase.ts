@@ -1,6 +1,6 @@
 
-const WorkspaceDomain = require('../../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace');
-const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
+import WorkspaceDomain from '../../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace';
+import EventDispatcher from '../../event-dispatcher/eventDispatcher';
 type deleteWorkspaceCommand = {
     readonly workspaceId: string;
     readonly actorId: string; //who is performing the action
@@ -45,4 +45,4 @@ class DeleteWorkspaceUseCase {
     }
 }
 
-module.exports = DeleteWorkspaceUseCase;
+export default DeleteWorkspaceUseCase;

@@ -82,4 +82,4 @@ class MembershipDomain {
         return this.props.role === "member";
     }
 }
-module.exports = MembershipDomain;
+export default MembershipDomain;

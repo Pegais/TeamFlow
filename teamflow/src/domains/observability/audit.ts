@@ -17,8 +17,7 @@
  * 5 An audit can not be changed or modified.
  
  */
-const { v4 : uuidv4 } =require("uuid");
-
+import { v4 as uuidv4 } from "uuid";
 import type { AuditProps, AuditAction } from "./audit.types";
 
 class AuditDomain {
@@ -60,5 +59,5 @@ class AuditDomain {
 }
 
 
-module.exports = AuditDomain;
+export default AuditDomain;
 

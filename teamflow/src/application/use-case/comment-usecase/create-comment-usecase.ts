@@ -1,6 +1,6 @@
-const CommentDomain = require('../../../domains/operational/comment/comment');
-const { v4: uuidv4 } = require('uuid');
-const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
+import CommentDomain from '../../../domains/operational/comment/comment';
+import { v4 as uuidv4 } from 'uuid';
+import EventDispatcher from '../../event-dispatcher/eventDispatcher';
 type createCommentUseCaseCommand={
     content:string;
     taskId?:string | null;
@@ -41,4 +41,4 @@ class CreateCommentUseCase{
     }
 }
 
-module.exports = CreateCommentUseCase;
+export default CreateCommentUseCase;

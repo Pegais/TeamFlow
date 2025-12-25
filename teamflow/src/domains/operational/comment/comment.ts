@@ -13,7 +13,7 @@
  */
 
 import type { CommentProps } from "./comment.type";
-const EventAggregateRoot = require("../../../observability/domainEvent/eventAggregateRoot");
+import EventAggregateRoot from "../../../observability/domainEvent/eventAggregateRoot";
 class CommentDomain extends EventAggregateRoot {
     private props: CommentProps;
 
@@ -103,4 +103,4 @@ class CommentDomain extends EventAggregateRoot {
 
 }
 
-module.exports = CommentDomain;
+export default CommentDomain;

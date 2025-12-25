@@ -1,5 +1,5 @@
-const InvitationDomain = require('../../../domains/lifecycle/invitation/invitation');
-const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
+import InvitationDomain from '../../../domains/lifecycle/invitation/invitation';
+import EventDispatcher from '../../event-dispatcher/eventDispatcher';
 type expiredInvitationUseCaseCommand={
     invitationId: string;
 }
@@ -31,4 +31,4 @@ class ExpiredInvitationUseCase{
     }
 }
 
-module.exports = ExpiredInvitationUseCase;
+export default ExpiredInvitationUseCase;
