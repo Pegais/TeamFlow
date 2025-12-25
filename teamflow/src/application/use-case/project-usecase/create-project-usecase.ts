@@ -1,7 +1,7 @@
 // create project usecase
 
-const ProjectDomain = require('../../../domains/operational/project/project');
-const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
+import ProjectDomain from '../../../domains/operational/project/project';
+import EventDispatcher from '../../event-dispatcher/eventDispatcher';
 
 type createProjectUseCaseCommand={
     name:string;//project name
@@ -26,7 +26,7 @@ class CreateProjectUseCase{
         await this.projectRepository.save(project);
 
         //now we need to publish the event
-        EventDispatcher.from(project);
+        await EventDispatcher.from(project);
         } catch (error) {
             const errorMessage=`Failed to create project: ${error as Error}`;
             throw new Error(errorMessage);
@@ -35,4 +35,4 @@ class CreateProjectUseCase{
     }
 }
 
-module.exports=CreateProjectUseCase;
+export default CreateProjectUseCase;

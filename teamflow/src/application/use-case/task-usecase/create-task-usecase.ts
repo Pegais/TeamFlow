@@ -1,6 +1,6 @@
-const TaskDomain = require('../../../domains/operational/task/task');
-const { v4: uuidv4 } = require('uuid');
-const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
+import TaskDomain from '../../../domains/operational/task/task';
+import { v4 as uuidv4 } from 'uuid';
+import EventDispatcher from '../../event-dispatcher/eventDispatcher';
 type createTaskUseCaseCommand={
     title: string;
     description?: string;
@@ -29,7 +29,7 @@ class CreateTaskUseCase{
             await this.taskRepository.save(task);
 
             //publishing the events;
-           EventDispatcher.from(task);
+           await EventDispatcher.from(task);
         } catch (error) {
             const errorMessage =`Failed to create task with title ${command.title} because of ${error}`;
             throw new Error(errorMessage);
@@ -37,4 +37,4 @@ class CreateTaskUseCase{
     }
 }
 
-module.exports = CreateTaskUseCase;
+export default CreateTaskUseCase;

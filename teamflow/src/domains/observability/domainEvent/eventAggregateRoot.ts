@@ -17,4 +17,4 @@ abstract class EventAggregateRoot {
     }
 }
 
-module.exports = EventAggregateRoot;
+export default EventAggregateRoot;

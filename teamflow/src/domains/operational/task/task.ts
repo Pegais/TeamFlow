@@ -1,4 +1,4 @@
-const EventAggregateRoot = require("../../observability/domainEvent/eventAggregateRoot");
+import EventAggregateRoot from "../../observability/domainEvent/eventAggregateRoot";
 import type { TaskProps, TaskStatus } from "./task.types";
 
 class TaskDomain extends EventAggregateRoot {
@@ -105,5 +105,5 @@ class TaskDomain extends EventAggregateRoot {
         });
     }
 }
-module.exports = TaskDomain;
+export default TaskDomain;
 

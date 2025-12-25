@@ -1,6 +1,6 @@
-const CommentDomain = require('../../../domains/operational/comment/comment');
-const { v4: uuidv4 } = require('uuid');
-const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
+import CommentDomain from '../../../domains/operational/comment/comment';
+import { v4 as uuidv4 } from 'uuid';
+import EventDispatcher from '../../event-dispatcher/eventDispatcher';
 type createCommentUseCaseCommand={
     content:string;
     taskId?:string | null;
@@ -33,7 +33,7 @@ class CreateCommentUseCase{
             await this.createCommentUseCaseRepository.save(comment);
 
             //publishing the events;
-           EventDispatcher.from(comment);
+           await EventDispatcher.from(comment);
         } catch (error) {
             const errorMessage =`Failed to create comment with content ${command.content} because of ${error}`;
             throw new Error(errorMessage,{cause:error});
@@ -41,4 +41,4 @@ class CreateCommentUseCase{
     }
 }
 
-module.exports = CreateCommentUseCase;
+export default CreateCommentUseCase;

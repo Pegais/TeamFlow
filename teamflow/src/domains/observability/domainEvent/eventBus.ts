@@ -36,5 +36,5 @@ class EventBus {
 
 //singleton instance :
 const eventBus = new EventBus();
-module.exports = eventBus;
+export default eventBus;
 

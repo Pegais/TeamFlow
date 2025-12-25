@@ -1,5 +1,5 @@
-const ProjectDomain = require('../../../domains/operational/project/project');
-const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
+import ProjectDomain from '../../../domains/operational/project/project';
+import EventDispatcher from '../../event-dispatcher/eventDispatcher';
 
 type deleteProjectUseCaseCommand={
     projectId:string;
@@ -27,7 +27,7 @@ class DeleteProjectUseCase{
             await this.projectRepository.save(project);
            
             //publishing the events;
-            EventDispatcher.from(project);
+            await EventDispatcher.from(project);
         } catch (error) {
             const errorMessage =`Failed to delete project with id ${command.projectId} because of ${error}`;
             throw new Error(errorMessage);
@@ -36,4 +36,4 @@ class DeleteProjectUseCase{
     }
 }
 
-module.exports = DeleteProjectUseCase;
+export default DeleteProjectUseCase;

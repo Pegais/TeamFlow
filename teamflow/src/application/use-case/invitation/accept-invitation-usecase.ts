@@ -1,5 +1,5 @@
-const InvitationDomain = require('../../../domains/lifecycle/invitation/invitation');
-const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
+import InvitationDomain from '../../../domains/lifecycle/invitation/invitation';
+import EventDispatcher from '../../event-dispatcher/eventDispatcher';
 type acceptInvitationUseCaseCommand = {
     invitationId: string;
 }
@@ -23,11 +23,11 @@ class AcceptInvitationUseCase{
             invitation.accept();
             await this.acceptInvitationUseCaseRepository.save(invitation);
             //publishing the events;
-            EventDispatcher.from(invitation);
+            await EventDispatcher.from(invitation);
         } catch (error) {
             const errorMessage =`Failed to accept invitation with id ${command.invitationId} because of ${error}`;
             throw new Error(errorMessage,{cause:error});
         }
     }
 }
-module.exports = AcceptInvitationUseCase;
+export default AcceptInvitationUseCase;

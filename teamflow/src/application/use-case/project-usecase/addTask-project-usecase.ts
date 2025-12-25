@@ -1,5 +1,5 @@
-const ProjectDomain = require('../../../domains/operational/project/project');
-const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
+import ProjectDomain from '../../../domains/operational/project/project';
+import EventDispatcher from '../../event-dispatcher/eventDispatcher';
 /**
  * creating type command for adding task to project;
  */
@@ -28,7 +28,7 @@ class AddTaskToProjectUseCase{
             project.add(command.taskId);
             await this.projectRepository.save(project);
             //publishing the events;
-            EventDispatcher.from(project);
+            await EventDispatcher.from(project);
         } catch (error) {
             const errorMessage =`Failed to add task to project with id ${command.projectId} because of ${error}`;
             throw new Error(errorMessage);

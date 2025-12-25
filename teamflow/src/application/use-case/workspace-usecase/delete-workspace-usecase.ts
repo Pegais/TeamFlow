@@ -1,6 +1,6 @@
 
-const WorkspaceDomain = require('../../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace');
-const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
+import WorkspaceDomain from '../../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace';
+import EventDispatcher from '../../event-dispatcher/eventDispatcher';
 type deleteWorkspaceCommand = {
     readonly workspaceId: string;
     readonly actorId: string; //who is performing the action
@@ -36,7 +36,7 @@ class DeleteWorkspaceUseCase {
             //save and persist the workspace
             await this.workspaceRepository.save(workspace);
             //load all events from the delete event stream
-           EventDispatcher.from(workspace);
+           await EventDispatcher.from(workspace);
           
         } catch (error) {
             const errorMessage = `error from delete workspace usecase : ${error}`;
@@ -45,4 +45,4 @@ class DeleteWorkspaceUseCase {
     }
 }
 
-module.exports = DeleteWorkspaceUseCase;
+export default DeleteWorkspaceUseCase;

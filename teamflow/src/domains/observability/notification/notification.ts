@@ -5,7 +5,7 @@
  */
 
 import type { NotificationProps ,NotificationStatus} from "./notification.types";
-const {v4: uuidv4} = require('uuid');
+import { v4 as uuidv4 } from 'uuid';
 class NotificationDomain {
     private props: NotificationProps;
     constructor(props: NotificationProps) {
@@ -40,4 +40,4 @@ class NotificationDomain {
 
 }
 
-module.exports = NotificationDomain;
+export default NotificationDomain;

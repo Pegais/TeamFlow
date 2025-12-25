@@ -1,5 +1,5 @@
-const TaskDomain = require('../../../domains/operational/task/task');
-const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
+import TaskDomain from '../../../domains/operational/task/task';
+import EventDispatcher from '../../event-dispatcher/eventDispatcher';
 type startTaskUseCaseCommand={
     taskId:string;//id of the task;
 }
@@ -27,7 +27,7 @@ class StartTaskUseCase{
             task.start();
             await this.taskRepository.save(task);
             //publishing the events;
-           EventDispatcher.from(task);
+           await EventDispatcher.from(task);
         } catch (error) {
             const errorMessage =`Failed to start task with id ${command.taskId} because of ${error}`;
             throw new Error(errorMessage,{cause:error});
@@ -36,4 +36,4 @@ class StartTaskUseCase{
     }
 }
 
-module.exports = StartTaskUseCase;
+export default StartTaskUseCase;

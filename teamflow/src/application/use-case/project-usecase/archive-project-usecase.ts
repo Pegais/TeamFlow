@@ -1,5 +1,5 @@
-const ProjectDomain = require('../../../domains/operational/project/project');
-const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
+import ProjectDomain from '../../../domains/operational/project/project';
+import EventDispatcher from '../../event-dispatcher/eventDispatcher';
 
 // project archive use case;
 
@@ -26,7 +26,7 @@ class ArchiveProjectUseCase{
             project.archive();
 
             await this.projectRepository.save(project);
-            EventDispatcher.from(project);
+            await EventDispatcher.from(project);
           
         } catch (error) {
             const errorMessage=`Failed to archive project: ${error as Error}`;
@@ -35,4 +35,4 @@ class ArchiveProjectUseCase{
     }
 }
 
-module.exports = ArchiveProjectUseCase;
+export default ArchiveProjectUseCase;

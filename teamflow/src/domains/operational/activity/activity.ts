@@ -42,4 +42,4 @@ class ActivityDomain {
     }
 }
 
-module.exports = ActivityDomain;
+export default ActivityDomain;

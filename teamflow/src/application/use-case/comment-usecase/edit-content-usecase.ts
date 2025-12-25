@@ -1,5 +1,5 @@
-const CommentDomain = require('../../../domains/operational/comment/comment');
-const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
+import CommentDomain from '../../../domains/operational/comment/comment';
+import EventDispatcher from '../../event-dispatcher/eventDispatcher';
 
 type editContentUseCaseCommand={
     commentId:string;
@@ -26,7 +26,7 @@ class EditContentUseCase{
             comment.edit(command.newContent);
             await this.editContentUseCaseRepository.save(comment);
             //publishing the events;
-            EventDispatcher.from(comment);
+            await EventDispatcher.from(comment);
         } catch (error) {
             const errorMessage =`Failed to edit content of comment with id ${command.commentId} because of ${error}`;
             throw new Error(errorMessage,{cause:error});
@@ -34,4 +34,4 @@ class EditContentUseCase{
     }
 }
 
-module.exports = EditContentUseCase;
+export default EditContentUseCase;

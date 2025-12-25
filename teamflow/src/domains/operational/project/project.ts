@@ -26,8 +26,8 @@
  */
 
 import type { ProjectProps, ProjectStatus } from "./project.types";
-const { v4: uuidv4 } = require('uuid');
-const EventAggregateRoot = require("../../../observability/domainEvent/eventAggregateRoot");
+import { v4 as uuidv4 } from 'uuid';
+import EventAggregateRoot from "../../../observability/domainEvent/eventAggregateRoot";
 
 class ProjectDomain extends EventAggregateRoot {
     private props: ProjectProps
@@ -239,4 +239,4 @@ class ProjectDomain extends EventAggregateRoot {
 
     }
 }
-module.exports = ProjectDomain;
+export default ProjectDomain;

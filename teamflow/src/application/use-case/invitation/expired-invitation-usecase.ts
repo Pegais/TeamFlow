@@ -1,5 +1,5 @@
-const InvitationDomain = require('../../../domains/lifecycle/invitation/invitation');
-const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
+import InvitationDomain from '../../../domains/lifecycle/invitation/invitation';
+import EventDispatcher from '../../event-dispatcher/eventDispatcher';
 type expiredInvitationUseCaseCommand={
     invitationId: string;
 }
@@ -23,7 +23,7 @@ class ExpiredInvitationUseCase{
             invitation.expire();
             await this.expiredInvitationUseCaseRepository.save(invitation);
             //publishing events;
-           EventDispatcher.from(invitation);
+           await EventDispatcher.from(invitation);
         } catch (error) {
             const errorMessage =`Failed to expire invitation with id ${command.invitationId} because of ${error}`;
             throw new Error(errorMessage,{cause:error});
@@ -31,4 +31,4 @@ class ExpiredInvitationUseCase{
     }
 }
 
-module.exports = ExpiredInvitationUseCase;
+export default ExpiredInvitationUseCase;

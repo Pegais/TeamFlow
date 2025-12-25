@@ -1,4 +1,4 @@
-const eventBus = require('../../domains/observability/domainEvent/eventBus');
+import eventBus from '../../domains/observability/domainEvent/eventBus';
 import type { DomainEvent } from '../../domains/observability/domainEvent/domainEvent.types';
 
 
@@ -10,18 +10,24 @@ class EventDispatcher{
     constructor(
         private aggregate: EventDispatcherAggregate
     ){ }
-    public static from(aggregate: EventDispatcherAggregate): void{
+     public static async from(aggregate: EventDispatcherAggregate): Promise<void>{
         //why pullevents() will work
         /**
          * Dont forget all the aggregate roots are extending the EventAggregateRoot class.
          * and eventAggregateRoot class has the pullEvents() method.
          */
-        const events = aggregate.pullEvents();
+      try {
+        const events =  aggregate.pullEvents();
         for (const event of events) {
-            eventBus.publish(event);
+            await eventBus.publish(event);
         }
+      } catch (error) {
+        const errorMessage = `Error in publishing events: ${error}`;
+        console.error(errorMessage);
+        throw new Error(errorMessage);
+      }
     }
 }
 
 
-module.exports = EventDispatcher;
+export default EventDispatcher;

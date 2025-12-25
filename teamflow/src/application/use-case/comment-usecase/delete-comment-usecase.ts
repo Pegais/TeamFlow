@@ -1,5 +1,5 @@
-const CommentDomain = require('../../../domains/operational/comment/comment');
-const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
+import CommentDomain from '../../../domains/operational/comment/comment';
+import EventDispatcher from '../../event-dispatcher/eventDispatcher';
 type deleteCommentUseCaseCommand={
     commentId:string;
 }
@@ -23,7 +23,7 @@ class DeleteCommentUseCase{
             comment.delete();
             await this.deleteCommentUseCaseRepository.save(comment);
             //publishing the events;
-            EventDispatcher.from(comment);
+            await EventDispatcher.from(comment);
         } catch (error) {
             const errorMessage =`Failed to delete comment with id ${command.commentId} because of ${error}`;
             throw new Error(errorMessage,{cause:error});
@@ -31,4 +31,4 @@ class DeleteCommentUseCase{
     }
 }
 
-module.exports = DeleteCommentUseCase;
+export default DeleteCommentUseCase;

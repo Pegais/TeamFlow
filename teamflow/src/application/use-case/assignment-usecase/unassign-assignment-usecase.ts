@@ -1,5 +1,5 @@
-const AssignmentDomain = require('../../../domains/operational/assignment/assignment');
-const EventDispatcher = require('../../event-dispatcher/eventDispatcher');
+import AssignmentDomain from '../../../domains/operational/assignment/assignment';
+import EventDispatcher from '../../event-dispatcher/eventDispatcher';
 
 type unassignAssignmentUseCaseCommand={
     taskId: string;
@@ -26,7 +26,7 @@ class UnassignAssignmentUseCase{
             await this.unassignAssignmentUseCaseRepository.save(assignment);
            
             //publishing the events;
-            EventDispatcher.from(assignment);
+            await EventDispatcher.from(assignment);
         }
         catch (error) {
             const errorMessage =`Failed to unassign task with id ${command.taskId} because of ${error}`;
@@ -34,4 +34,4 @@ class UnassignAssignmentUseCase{
         }
     }
 }
-module.exports = UnassignAssignmentUseCase;
+export default UnassignAssignmentUseCase;
