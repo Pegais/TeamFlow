@@ -67,7 +67,7 @@ describe("remove member from deleted workspace", () => {
         //act and assertion
         expect(() =>
             testworkspace1.removeMember(ownerid, memberid)
-        ).toThrow("Workspace has been deleted");
+        ).toThrow("Workspace is deleted and cannot be modified");
         //error thrown should be same as that of error getting from invariant enforcers in workspace domain.
         // Expected substring: "Workspace has been deleted"
         // Received message:   "Workspace is deleted and cannot be modified"
@@ -76,4 +76,33 @@ describe("remove member from deleted workspace", () => {
     })
 
 
+})
+
+
+//edge cases 4 :* 4.we cannot remove member from workspace if the member is the last owner.
+
+describe("remove member from workspace when the member is the last owner", () => {
+    test("should throw error if the member is the last owner", () => {
+        //setup
+
+        let ownerid = 'user-1';
+        let memberid = 'user-1';//id to be removed is same as the owner id.
+
+        //action
+        const testworkspace = WorkspaceDomain.create(ownerid, "test workspace", "test description");
+
+        //assertion
+        expect(()=>
+        testworkspace.removeMember(ownerid, memberid)
+        ).toThrow("Member is the last owner and cannot be removed");
+        //error thrown should be same as that of error getting from invariant enforcers in workspace domain.
+    //     Expected substring: "Member is the last owner and cannot be removed"
+    // Received message:   "Cannot remove the last owner from the workspace"
+
+    /**
+     * getting this error during testing is good as we can see our invariant enforcers are working as expected.
+     */
+      
+        
+    })
 })
