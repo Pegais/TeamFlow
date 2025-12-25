@@ -68,7 +68,10 @@ describe("remove member from deleted workspace", () => {
         expect(() =>
             testworkspace1.removeMember(ownerid, memberid)
         ).toThrow("Workspace has been deleted");
-        
+        //error thrown should be same as that of error getting from invariant enforcers in workspace domain.
+        // Expected substring: "Workspace has been deleted"
+        // Received message:   "Workspace is deleted and cannot be modified"
+    
 
     })
 
