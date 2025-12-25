@@ -7,7 +7,7 @@ import type { DomainEvent } from "./domainEvent.types";
 
 
 //creating a Eventhandler function type:
-type EventHandler = (event: DomainEvent) => void;
+type EventHandler = (event: DomainEvent) => Promise<void>;
 class EventBus {
     //mapping eventype with its handler functions.
     private handlers:{[eventType:string]:EventHandler[]} = {};// Record<eventType:string, EventHandler[]>
@@ -21,13 +21,13 @@ class EventBus {
     }
 
     //publishing of events :
-    public publish(event:DomainEvent):void{
+    public async publish(event:DomainEvent):Promise<void>{
         const eventHandlers = this.handlers[event.type];
         if(!eventHandlers){
             return;
         }
         for(const handler of eventHandlers){
-            handler(event);
+            await handler(event);
         }
     }
     
