@@ -27,7 +27,7 @@ class StartTaskUseCase{
             task.start();
             await this.taskRepository.save(task);
             //publishing the events;
-           EventDispatcher.from(task);
+           await EventDispatcher.from(task);
         } catch (error) {
             const errorMessage =`Failed to start task with id ${command.taskId} because of ${error}`;
             throw new Error(errorMessage,{cause:error});

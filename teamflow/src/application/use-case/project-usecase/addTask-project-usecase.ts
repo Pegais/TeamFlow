@@ -28,7 +28,7 @@ class AddTaskToProjectUseCase{
             project.add(command.taskId);
             await this.projectRepository.save(project);
             //publishing the events;
-            EventDispatcher.from(project);
+            await EventDispatcher.from(project);
         } catch (error) {
             const errorMessage =`Failed to add task to project with id ${command.projectId} because of ${error}`;
             throw new Error(errorMessage);

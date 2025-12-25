@@ -23,7 +23,7 @@ class AcceptInvitationUseCase{
             invitation.accept();
             await this.acceptInvitationUseCaseRepository.save(invitation);
             //publishing the events;
-            EventDispatcher.from(invitation);
+            await EventDispatcher.from(invitation);
         } catch (error) {
             const errorMessage =`Failed to accept invitation with id ${command.invitationId} because of ${error}`;
             throw new Error(errorMessage,{cause:error});

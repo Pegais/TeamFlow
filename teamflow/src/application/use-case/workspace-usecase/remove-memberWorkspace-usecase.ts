@@ -36,7 +36,7 @@ class RemoveWorkspaceMemberUseCase {
           
             //persist the aggregate
             await this.workspaceRepository.save(workspace);
-          EventDispatcher.from(workspace);
+          await EventDispatcher.from(workspace);
         } catch (error) {
             const errorMeessage = `error from remove member workspace usecase : ${error}`;
             throw new Error(errorMeessage);

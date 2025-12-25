@@ -26,7 +26,7 @@ class CreateProjectUseCase{
         await this.projectRepository.save(project);
 
         //now we need to publish the event
-        EventDispatcher.from(project);
+        await EventDispatcher.from(project);
         } catch (error) {
             const errorMessage=`Failed to create project: ${error as Error}`;
             throw new Error(errorMessage);

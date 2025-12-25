@@ -26,7 +26,7 @@ class EditContentUseCase{
             comment.edit(command.newContent);
             await this.editContentUseCaseRepository.save(comment);
             //publishing the events;
-            EventDispatcher.from(comment);
+            await EventDispatcher.from(comment);
         } catch (error) {
             const errorMessage =`Failed to edit content of comment with id ${command.commentId} because of ${error}`;
             throw new Error(errorMessage,{cause:error});

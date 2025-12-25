@@ -25,7 +25,7 @@ class RestoreProjectUseCase{
             await this.projectRepository.save(project);
 
             //publishing the events;
-           EventDispatcher.from(project);
+           await EventDispatcher.from(project);
         } catch (error) {
             const errorMessage=`Failed to restore project: ${error as Error}`;
             throw new Error(errorMessage);

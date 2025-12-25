@@ -29,7 +29,7 @@ class RemoveTaskFromProjectUseCase{
             project.remove(command.taskId);
             await this.props.save(project);
             //publishing the events;
-            EventDispatcher.from(project);
+            await EventDispatcher.from(project);
         } catch (error) {
             const errorMessage =`Failed to remove task from project with id ${command.projectId} because of ${error}`;
             throw new Error(errorMessage);

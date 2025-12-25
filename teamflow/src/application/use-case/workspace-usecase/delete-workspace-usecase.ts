@@ -36,7 +36,7 @@ class DeleteWorkspaceUseCase {
             //save and persist the workspace
             await this.workspaceRepository.save(workspace);
             //load all events from the delete event stream
-           EventDispatcher.from(workspace);
+           await EventDispatcher.from(workspace);
           
         } catch (error) {
             const errorMessage = `error from delete workspace usecase : ${error}`;

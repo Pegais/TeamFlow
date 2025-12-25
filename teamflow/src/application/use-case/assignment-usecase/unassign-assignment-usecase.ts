@@ -26,7 +26,7 @@ class UnassignAssignmentUseCase{
             await this.unassignAssignmentUseCaseRepository.save(assignment);
            
             //publishing the events;
-            EventDispatcher.from(assignment);
+            await EventDispatcher.from(assignment);
         }
         catch (error) {
             const errorMessage =`Failed to unassign task with id ${command.taskId} because of ${error}`;

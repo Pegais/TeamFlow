@@ -23,7 +23,7 @@ class DeleteCommentUseCase{
             comment.delete();
             await this.deleteCommentUseCaseRepository.save(comment);
             //publishing the events;
-            EventDispatcher.from(comment);
+            await EventDispatcher.from(comment);
         } catch (error) {
             const errorMessage =`Failed to delete comment with id ${command.commentId} because of ${error}`;
             throw new Error(errorMessage,{cause:error});

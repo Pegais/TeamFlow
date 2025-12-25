@@ -29,7 +29,7 @@ class CreateTaskUseCase{
             await this.taskRepository.save(task);
 
             //publishing the events;
-           EventDispatcher.from(task);
+           await EventDispatcher.from(task);
         } catch (error) {
             const errorMessage =`Failed to create task with title ${command.title} because of ${error}`;
             throw new Error(errorMessage);

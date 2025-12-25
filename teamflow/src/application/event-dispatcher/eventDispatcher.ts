@@ -16,10 +16,16 @@ class EventDispatcher{
          * Dont forget all the aggregate roots are extending the EventAggregateRoot class.
          * and eventAggregateRoot class has the pullEvents() method.
          */
-        const events = await aggregate.pullEvents();
+      try {
+        const events =  aggregate.pullEvents();
         for (const event of events) {
             eventBus.publish(event);
         }
+      } catch (error) {
+        const errorMessage = `Error in publishing events: ${error}`;
+        console.error(errorMessage);
+        throw new Error(errorMessage);
+      }
     }
 }
 

@@ -26,7 +26,7 @@ class ArchiveProjectUseCase{
             project.archive();
 
             await this.projectRepository.save(project);
-            EventDispatcher.from(project);
+            await EventDispatcher.from(project);
           
         } catch (error) {
             const errorMessage=`Failed to archive project: ${error as Error}`;

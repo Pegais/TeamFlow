@@ -29,7 +29,7 @@ class AssignAssignmentUseCase{
             assignment.assign(command.userId, command.taskStatus, command.isMemberofworkspace, command.isProjectArchived);
             await this.assignAssignmentUseCaseRepository.save(assignment);
             //publishing the events;
-           EventDispatcher.from(assignment);
+           await EventDispatcher.from(assignment);
         } catch (error) {
             const errorMessage =`Failed to assign task with id ${command.taskId} to user with id ${command.userId} because of ${error}`;
             throw new Error(errorMessage,{cause:error});

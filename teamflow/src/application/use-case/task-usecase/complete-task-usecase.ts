@@ -23,7 +23,7 @@ class CompleteTaskUseCase{
             task.complete();
             await this.completeTaskUseCaseRepository.save(task);
             //publishing the events;
-           EventDispatcher.from(task);
+           await EventDispatcher.from(task);
         } catch (error) {
             const errorMessage =`Failed to complete task with id ${command.taskId} because of ${error}`;
             throw new Error(errorMessage,{cause:error});

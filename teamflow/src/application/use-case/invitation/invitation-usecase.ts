@@ -29,7 +29,7 @@ class CreateInvitationUseCase {
             //saving the invitation entity;
             await this.createInvitationUseCaseRepository.save(invitation);
             //publishing the events;
-          EventDispatcher.from(invitation);
+          await EventDispatcher.from(invitation);
         } catch (error) {
             const errorMessage =`Failed to create invitation for email ${command.email} and workspace with id ${command.workspaceId} because of ${error}`;
             throw new Error(errorMessage,{cause:error});

@@ -23,7 +23,7 @@ class ExpiredInvitationUseCase{
             invitation.expire();
             await this.expiredInvitationUseCaseRepository.save(invitation);
             //publishing events;
-           EventDispatcher.from(invitation);
+           await EventDispatcher.from(invitation);
         } catch (error) {
             const errorMessage =`Failed to expire invitation with id ${command.invitationId} because of ${error}`;
             throw new Error(errorMessage,{cause:error});

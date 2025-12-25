@@ -33,7 +33,7 @@ class CreateCommentUseCase{
             await this.createCommentUseCaseRepository.save(comment);
 
             //publishing the events;
-           EventDispatcher.from(comment);
+           await EventDispatcher.from(comment);
         } catch (error) {
             const errorMessage =`Failed to create comment with content ${command.content} because of ${error}`;
             throw new Error(errorMessage,{cause:error});

@@ -54,7 +54,7 @@ class AddWorkspaceMemberUseCase {
         //save workspace
        await this.workspaceRepository.save(workspace);
        //pull emmitted domain events
-    EventDispatcher.from(workspace);
+    await EventDispatcher.from(workspace);
         } catch (error) {
             const errorMessage = `error from add member workspace usecase : ${error}`;
             throw new Error(errorMessage);

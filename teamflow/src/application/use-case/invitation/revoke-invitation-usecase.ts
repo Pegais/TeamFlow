@@ -24,7 +24,7 @@ class RevokeInvitationUseCase{
             invitation.revoke();
             await this.revokeInvitationUseCaseRepository.save(invitation);
             //publishing events;
-            EventDispatcher.from(invitation);
+            await EventDispatcher.from(invitation);
         } catch (error) {
             const errorMessage =`Failed to revoke invitation with id ${command.invitationId} because of ${error}`;
             throw new Error(errorMessage,{cause:error});
