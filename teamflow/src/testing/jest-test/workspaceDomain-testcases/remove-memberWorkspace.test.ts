@@ -14,8 +14,8 @@ import WorkspaceDomain from "../../../domains/coretruthDomain/user/workspaceDoma
 describe("remove member from workspace domain", () => {
     test("should remove member from workspace", () => {
         //setup
-        let ownerid='user-1';
-        let memberid='user-2';
+        let ownerid = 'user-1';
+        let memberid = 'user-2';
 
         const testworkspace = WorkspaceDomain.create(ownerid, "test workspace", "test description");
         testworkspace.addMember(ownerid, memberid, "member");
@@ -26,4 +26,27 @@ describe("remove member from workspace domain", () => {
         expect(testworkspace['props'].members.length).toBe(1);
         expect(testworkspace['props'].members[0]?.role).toBe("owner");
     })
+})
+
+//edge cases 2 :* 2.we can remove member from workspace only when the member is present in the workspace.
+
+describe("remove member from workspace domain without adding the member first", () => {
+    test("should throw error if the member is not present in the workspace", () => {
+        //setup
+        let ownerid = 'user-1';
+        let memberid = 'user-2';
+
+        //act
+        const testworkspace = WorkspaceDomain.create(ownerid, "test workspace", "test description");
+
+        //assertion
+
+        //expecting an error to be thrown
+        //error thorwn should be same as that of error getting from invariant enforcers in workspace domain.
+        expect(() =>
+            testworkspace.removeMember(ownerid, memberid)
+        ).toThrow("Member does not exist in the workspace");
+    })
+
+
 })
