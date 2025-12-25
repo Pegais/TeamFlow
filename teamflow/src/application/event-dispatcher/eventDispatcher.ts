@@ -19,7 +19,7 @@ class EventDispatcher{
       try {
         const events =  aggregate.pullEvents();
         for (const event of events) {
-            eventBus.publish(event);
+            await eventBus.publish(event);
         }
       } catch (error) {
         const errorMessage = `Error in publishing events: ${error}`;
