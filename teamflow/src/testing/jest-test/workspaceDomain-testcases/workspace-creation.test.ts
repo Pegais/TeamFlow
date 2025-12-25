@@ -13,7 +13,7 @@ describe('workspace creation test',()=>{
     //setup
    const ownerid ='user-1'
    //action
-   const workspace=WorkspaceDomain.create(ownerid)
+   const workspace=WorkspaceDomain.create(ownerid,'workspace-1','description-1')
 
    //assertion
    const member =workspace['props'].members
