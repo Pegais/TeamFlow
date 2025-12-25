@@ -50,3 +50,27 @@ describe("remove member from workspace domain without adding the member first", 
 
 
 })
+
+
+//edge cases 3 :* 3.we cannot remove member from workspace if the workspace is deleted.
+
+describe("remove member from deleted workspace", () => {
+    test("should throw error if the workspace is deleted", () => {
+
+        //setup
+        let ownerid = 'user-1';
+        let memberid = 'user-2';
+
+        const testworkspace1 = WorkspaceDomain.create(ownerid, "test workspace", "test description");
+        testworkspace1.deleteWorkspace(ownerid, false);
+
+        //act and assertion
+        expect(() =>
+            testworkspace1.removeMember(ownerid, memberid)
+        ).toThrow("Workspace has been deleted");
+        
+
+    })
+
+
+})
