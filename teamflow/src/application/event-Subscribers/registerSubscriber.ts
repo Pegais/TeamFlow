@@ -84,34 +84,34 @@ import eventBus from '../../domains/observability/domainEvent/eventBus';
 import type { DomainEvent } from '../../domains/observability/domainEvent/domainEvent.types';
 
 const handlers = {
-    activityLogs: (event: DomainEvent) => {
+    activityLogs: async (event: DomainEvent) => {
 
         //todo : persist to activity /audit store;
         //activityRepository.save(event);
 
     },
-    notify: (event: DomainEvent) => {
+    notify: async (event: DomainEvent) => {
         //TODO:send notifications /enqueue
         //notificationService.send(event);
     },
-    projectProjections: (event: DomainEvent) => {
+    projectProjections:     async (event: DomainEvent) => {
         //TODO:update project read models (status ,archieve /delete flags)
         //projectRepository.update(event);
     },
-    taskProjections: (event: DomainEvent) => {
+    taskProjections: async (event: DomainEvent) => {
         //TODO:update task read models (status ,timestamps)
         //taskRepository.update(event);
     },
-    commentProjections: (event: DomainEvent) => {
+    commentProjections: async (event: DomainEvent) => {
         //TODO:update comment read models
         //commentRepository.update(event);
     },
 
-    invitationProjections: (event: DomainEvent) => {
+    invitationProjections: async (event: DomainEvent) => {
         //TODO:update invitation read models
         //invitationRepository.update(event);
     },
-    workspaceProjections: (event: DomainEvent) => {
+    workspaceProjections:   async (event: DomainEvent) => {
         //TODO:update workspace read models
         //workspaceRepository.update(event);
     },
@@ -120,7 +120,7 @@ const handlers = {
 
 //subscription registration :
 function registerSubscribers() {
-    const on = (type: string, handler: (event: DomainEvent) => void) => {
+    const on = (type: string, handler: (event: DomainEvent) => Promise<void>) => {
         eventBus.subscribe(type, handler);
     }
 

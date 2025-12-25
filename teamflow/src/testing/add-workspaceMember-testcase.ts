@@ -27,13 +27,14 @@ class FakeWorkspaceRepository {
  * creating a fake subscriber for the event bus :
  */
 class FakeSubscriber {
-    handle(event: any): void {
+    handle(event: any): Promise<void> {
         console.log('Subscriber received event:', event.type);
+        return Promise.resolve();
     }
 }
 
 const subscriber = new FakeSubscriber();
-eventBus.subscribe('WORKSPACE_MEMBER_ADDED', (event: any) => subscriber.handle(event));
+eventBus.subscribe('WORKSPACE_MEMBER_ADDED', async (event: any) => await subscriber.handle(event));
 
 
 /**
