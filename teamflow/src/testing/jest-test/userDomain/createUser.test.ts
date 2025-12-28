@@ -32,3 +32,19 @@ describe('suspending a user', () => {
     })
 })
 
+
+//testcase 3 :activating a active user;
+//must throw erro as only suspended user can be activated.
+
+describe('activating a active user', () => {
+    test('should throw error if the user is already active', () => {
+        //setup ;
+        let email = 'test@test.com';
+        let name = 'test user';
+        //action
+        const user = User.createUser(email,name);
+        
+        //assertion
+        expect(() => user.activateUser(email)).toThrow('User is not suspended');
+    })
+})
