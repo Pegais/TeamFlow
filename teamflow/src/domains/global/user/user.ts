@@ -22,7 +22,7 @@
 // “Does this user exist and is it allowed to act?”
 
 import type { UserProps, UserStatus } from "./user.types";
-
+import { v4 as uuidv4 } from 'uuid';
 class User{
     private props:UserProps
 
@@ -34,7 +34,12 @@ class User{
 
 
 
-    //guard 1: ensure user does not exist with the same email.
+    //guard 1: ensure email and name are provided.
+    private ensureEmailAndNameAreProvided():void{
+        if(!this.props.email || !this.props.name){
+            throw new Error("Email and name are required");
+        }
+    }
    
 
     //guard 2: ensure user is not deleted
@@ -62,17 +67,21 @@ class User{
     }
 
     //valid domain operations:
-    public createUser(email:string,name:string):void{
-
-        //make sure no user exists with the same email.
-    
-
-        //update the user properties.
-       this.props.email = email;
-       this.props.name = name;
-       this.props.status = "active";
-       this.props.updatedAt = new Date();
-       this.props.createdAt = new Date();
+    public static createUser(email:string,name:string):User{
+        //ensure email and name are provided.
+        if(!email || !name || email === '' || name === ''){
+            throw new Error("Email and name are required");
+        }
+        return new User({
+            id: uuidv4(),
+            email: email,
+            name: name,
+            status: "active",
+            updatedAt: new Date(),
+            createdAt: new Date(),
+            deletedAt: null,
+        })
+     
      
     }
 
@@ -115,3 +124,6 @@ class User{
         this.props.deletedAt = new Date();
     }
 }
+
+
+export default User;
