@@ -17,3 +17,18 @@ describe('user should be created with a valid email and name', () => {
        expect(() => User.createUser(email,name)).toThrow('Email and name are required');
     })
 })
+
+//case 2: suspending a user;
+describe('suspending a user', () => {
+    test('should throw error if the user is not created', () => {
+        //setup ;
+        let email = 'test@test.com';
+        let name = 'test user';
+        //action
+      const user = User.createUser(email,name);
+      user.deleteUser(email);
+        //assertion
+        expect(() => user.suspendUser()).toThrow('User is deleted and cannot be modified');
+    })
+})
+

@@ -21,9 +21,10 @@
 //  CORE :User domain answers:
 // “Does this user exist and is it allowed to act?”
 
+import EventAggregateRoot from "../../observability/domainEvent/eventAggregateRoot";
 import type { UserProps, UserStatus } from "./user.types";
 import { v4 as uuidv4 } from 'uuid';
-class User{
+class User extends EventAggregateRoot{
     private props:UserProps
 
 
@@ -63,6 +64,7 @@ class User{
     }
 
     constructor(props:UserProps){
+        super();
         this.props = props;
     }
 
@@ -72,7 +74,7 @@ class User{
         if(!email || !name || email === '' || name === ''){
             throw new Error("Email and name are required");
         }
-        return new User({
+        const  user = new User({
             id: uuidv4(),
             email: email,
             name: name,
@@ -81,7 +83,16 @@ class User{
             createdAt: new Date(),
             deletedAt: null,
         })
-     
+        user.addEvent({
+            type: "USER_CREATED",
+            occuredAt: new Date(),
+            metadata: {
+                email: email,
+                name: name,
+            }
+        })
+        return user;
+       
      
     }
 
@@ -95,7 +106,14 @@ class User{
         //update the user properties.
         this.props.status = "suspended";
         this.props.updatedAt = new Date();
-    
+        this.addEvent({
+            type: "USER_SUSPENDED",
+            occuredAt: new Date(),
+            metadata: {
+                email: this.props.email,
+                name: this.props.name,
+            }
+        })
 
     }
 
@@ -108,7 +126,14 @@ class User{
         //update the user properties.
         this.props.status = "active";
         this.props.updatedAt = new Date();
-    
+        this.addEvent({
+            type: "USER_ACTIVATED",
+            occuredAt: new Date(),
+            metadata: {
+                email: this.props.email,
+                name: this.props.name,
+            }
+        })
     }
 
     //delete user
@@ -122,6 +147,14 @@ class User{
         this.props.status = "deleted";
         this.props.updatedAt = new Date();
         this.props.deletedAt = new Date();
+        this.addEvent({
+            type: "USER_DELETED",
+            occuredAt: new Date(),
+            metadata: {
+                email: this.props.email,
+                name: this.props.name,
+            }
+        })
     }
 }
 
