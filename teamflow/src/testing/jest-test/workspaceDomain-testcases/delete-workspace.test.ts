@@ -29,3 +29,19 @@ describe('delete workspace when the workspace is deleted already', () => {
 // Expected substring: "Workspace is already deleted"
 // Received message:   "Workspace is deleted and cannot be modified"
 //it means our guard of workspace is being triggered.
+
+
+//test case 2 : workspace can be deleted only by the owner.
+describe('workspace can be deleted only by the owner', () => {
+    test('should throw error if the workspace is not deleted by the owner', () => {
+        //setup ;
+        let workspaceId = 'workspace-1';
+        let ownerId = 'user-1';
+        let attackerId = 'user-2';
+        //action
+        const testworkspace = WorkspaceDomain.create(ownerId, 'test workspace', 'test description');
+
+        //assertion
+        expect(() => testworkspace.deleteWorkspace(attackerId, false)).toThrow('Only Owner can perform this action');
+    })
+})
