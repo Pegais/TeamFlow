@@ -45,3 +45,18 @@ describe('workspace can be deleted only by the owner', () => {
         expect(() => testworkspace.deleteWorkspace(attackerId, false)).toThrow('Only Owner can perform this action');
     })
 })
+
+//test case 3 : workspace should not have any active tasks.
+describe('workspace should not have any active tasks', () => {
+    test('should throw error if the workspace has active tasks', () => {
+        //setup ;
+        let workspaceId = 'workspace-1';
+        let ownerId = 'user-1';
+        let taskIdStatus = true;//active task
+        //action
+        const testworkspace = WorkspaceDomain.create(ownerId, 'test workspace', 'test description');
+
+        //assertion
+        expect(() => testworkspace.deleteWorkspace(ownerId, taskIdStatus)).toThrow('Workspace has active or in progress tasks and cannot be deleted');
+    })
+})
