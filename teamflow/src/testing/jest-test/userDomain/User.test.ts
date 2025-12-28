@@ -48,3 +48,17 @@ describe('activating a active user', () => {
         expect(() => user.activateUser(email)).toThrow('User is not suspended');
     })
 })
+
+//testcase 4 :deleting a  user;
+describe('deleting a user', () => {
+    test('delete a user',()=>{
+        //setup ;
+        let email = 'test@test.com';
+        let name = 'test user';
+        //action
+        const user = User.createUser(email,name);
+        user.deleteUser(email);
+        //assertion
+       expect(user['props'].status).toBe('deleted');
+    })
+})

@@ -27,7 +27,7 @@
 
 import type { ProjectProps, ProjectStatus } from "./project.types";
 import { v4 as uuidv4 } from 'uuid';
-import EventAggregateRoot from "../../../observability/domainEvent/eventAggregateRoot";
+import EventAggregateRoot from "../../observability/domainEvent/eventAggregateRoot";
 
 class ProjectDomain extends EventAggregateRoot {
     private props: ProjectProps
@@ -101,7 +101,7 @@ class ProjectDomain extends EventAggregateRoot {
         if (!workspaceId || workspaceId.trim() === "") {
             throw new Error("Workspace ID is required");
         }
-        const project= new ProjectDomain({
+        const project = new ProjectDomain({
             id: uuidv4(),
             name,
             workspaceId,
@@ -114,8 +114,10 @@ class ProjectDomain extends EventAggregateRoot {
         project.addEvent({
             type: "PROJECT_CREATED",
             occuredAt: new Date(),
-            projectId: project.props.id,
-            workspaceId: project.props.workspaceId,
+            metadata: {
+                projectId: project.props.id,
+                workspaceId: project.props.workspaceId,
+            }
         })
         return project;
     }
@@ -133,9 +135,11 @@ class ProjectDomain extends EventAggregateRoot {
         this.addEvent({
             type: "PROJECT_RENAMED",
             occuredAt: new Date(),
-            projectId: this.props.id,
-            workspaceId: this.props.workspaceId,
-            newName: name,
+            metadata: {
+                projectId: this.props.id,
+                workspaceId: this.props.workspaceId,
+                newName: name,
+            }
         })
 
 
@@ -155,17 +159,18 @@ class ProjectDomain extends EventAggregateRoot {
         this.addEvent({
             type: "PROJECT_ARCHIVED",
             occuredAt: new Date(),
-            projectId: this.props.id,
-            workspaceId: this.props.workspaceId,
-         
+            metadata: {
+                projectId: this.props.id,
+                workspaceId: this.props.workspaceId,
+            }
         })
     }
 
 
     //restoring a project :
     public restore(): void {
-       //ensure project is not deleted.
-       this.ensureNotDeleted();
+        //ensure project is not deleted.
+        this.ensureNotDeleted();
 
         //ensure allowed transitions are followed.
         this.ensureValidTransition(this.props.status, "active");
@@ -175,14 +180,16 @@ class ProjectDomain extends EventAggregateRoot {
         this.addEvent({
             type: "PROJECT_RESTORED",
             occuredAt: new Date(),
-            projectId: this.props.id,
-            workspaceId: this.props.workspaceId,
+            metadata: {
+                projectId: this.props.id,
+                workspaceId: this.props.workspaceId,
+            }
         })
 
     }
 
     public delete(hasActiveTasks: boolean): void {
-       
+
         //ensure project is not deleted.
         this.ensureNotDeleted();
         //ensure project can only be deleted if no active tasks exists in the project.
@@ -196,15 +203,17 @@ class ProjectDomain extends EventAggregateRoot {
         this.addEvent({
             type: "PROJECT_DELETED",
             occuredAt: new Date(),
-            projectId: this.props.id,
-            workspaceId: this.props.workspaceId,
+            metadata: {
+                projectId: this.props.id,
+                workspaceId: this.props.workspaceId,
+            }
         })
     }
 
 
     public add(taskid: string): void {
-         //ensure project is not deleted.
-         this.ensureNotDeleted();
+        //ensure project is not deleted.
+        this.ensureNotDeleted();
 
         //enure the archived project can not accept new tasks.
         this.ensureArchievedProjectCannotAcceptNewTasks();
@@ -214,11 +223,13 @@ class ProjectDomain extends EventAggregateRoot {
         this.addEvent({
             type: "TASK_ADDED_TO_PROJECT",
             occuredAt: new Date(),
-            projectId: this.props.id,
-            workspaceId: this.props.workspaceId,
-            taskId: taskid,
+            metadata: {
+                projectId: this.props.id,
+                workspaceId: this.props.workspaceId,
+                taskId: taskid,
+            }
         })
-        
+
 
 
     }
@@ -232,9 +243,11 @@ class ProjectDomain extends EventAggregateRoot {
         this.addEvent({
             type: "TASK_REMOVED_FROM_PROJECT",
             occuredAt: new Date(),
-            projectId: this.props.id,
-            workspaceId: this.props.workspaceId,
-            taskId: taskid,
+            metadata: {
+                projectId: this.props.id,
+                workspaceId: this.props.workspaceId,
+                taskId: taskid,
+            }
         })
 
     }
