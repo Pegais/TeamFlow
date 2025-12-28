@@ -21,9 +21,10 @@
 //  CORE :User domain answers:
 // “Does this user exist and is it allowed to act?”
 
+import EventAggregateRoot from "../../observability/domainEvent/eventAggregateRoot";
 import type { UserProps, UserStatus } from "./user.types";
-
-class User{
+import { v4 as uuidv4 } from 'uuid';
+class User extends EventAggregateRoot{
     private props:UserProps
 
 
@@ -34,7 +35,12 @@ class User{
 
 
 
-    //guard 1: ensure user does not exist with the same email.
+    //guard 1: ensure email and name are provided.
+    private ensureEmailAndNameAreProvided():void{
+        if(!this.props.email || !this.props.name){
+            throw new Error("Email and name are required");
+        }
+    }
    
 
     //guard 2: ensure user is not deleted
@@ -58,21 +64,35 @@ class User{
     }
 
     constructor(props:UserProps){
+        super();
         this.props = props;
     }
 
     //valid domain operations:
-    public createUser(email:string,name:string):void{
-
-        //make sure no user exists with the same email.
-    
-
-        //update the user properties.
-       this.props.email = email;
-       this.props.name = name;
-       this.props.status = "active";
-       this.props.updatedAt = new Date();
-       this.props.createdAt = new Date();
+    public static createUser(email:string,name:string):User{
+        //ensure email and name are provided.
+        if(!email || !name || email === '' || name === ''){
+            throw new Error("Email and name are required");
+        }
+        const  user = new User({
+            id: uuidv4(),
+            email: email,
+            name: name,
+            status: "active",
+            updatedAt: new Date(),
+            createdAt: new Date(),
+            deletedAt: null,
+        })
+        user.addEvent({
+            type: "USER_CREATED",
+            occuredAt: new Date(),
+            metadata: {
+                email: email,
+                name: name,
+            }
+        })
+        return user;
+       
      
     }
 
@@ -86,7 +106,14 @@ class User{
         //update the user properties.
         this.props.status = "suspended";
         this.props.updatedAt = new Date();
-    
+        this.addEvent({
+            type: "USER_SUSPENDED",
+            occuredAt: new Date(),
+            metadata: {
+                email: this.props.email,
+                name: this.props.name,
+            }
+        })
 
     }
 
@@ -99,7 +126,14 @@ class User{
         //update the user properties.
         this.props.status = "active";
         this.props.updatedAt = new Date();
-    
+        this.addEvent({
+            type: "USER_ACTIVATED",
+            occuredAt: new Date(),
+            metadata: {
+                email: this.props.email,
+                name: this.props.name,
+            }
+        })
     }
 
     //delete user
@@ -113,5 +147,16 @@ class User{
         this.props.status = "deleted";
         this.props.updatedAt = new Date();
         this.props.deletedAt = new Date();
+        this.addEvent({
+            type: "USER_DELETED",
+            occuredAt: new Date(),
+            metadata: {
+                email: this.props.email,
+                name: this.props.name,
+            }
+        })
     }
 }
+
+
+export default User;
