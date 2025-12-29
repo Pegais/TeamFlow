@@ -15,3 +15,16 @@ describe("Add Task to Project", () => {
         expect(()=>project.add("task1")).toThrow("Project is deleted");
     })
 })
+
+/**
+ * ensure a archived project can not accept new tasks.
+ */
+describe("Add Task to Project in arhive state", () => {
+    test('ensure a archived project can not accept new tasks',()=>{
+        const project = ProjectDomain.create("Test Project", "123");
+        project.archive();
+        //assertions
+        expect(project['props'].status).toBe("archived");
+        expect(()=>project.add("task1")).toThrow("Archived project cannot accept new tasks");
+    })
+})

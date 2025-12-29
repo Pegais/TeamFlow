@@ -86,7 +86,7 @@ class ProjectDomain extends EventAggregateRoot {
     //ensuring a archieved project can not accept new tasks.
     private ensureArchievedProjectCannotAcceptNewTasks(): void {
         if (this.props.status === "archived") {
-            throw new Error("Archieved project cannot accept new tasks");
+            throw new Error("Archived project cannot accept new tasks");
         }
     }
     constructor(props: ProjectProps) {
