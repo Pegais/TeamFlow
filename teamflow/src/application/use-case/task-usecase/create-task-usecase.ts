@@ -1,10 +1,12 @@
 import TaskDomain from '../../../domains/operational/task/task';
 import { v4 as uuidv4 } from 'uuid';
 import EventDispatcher from '../../event-dispatcher/eventDispatcher';
+import type { TaskStatus } from '../../../domains/operational/task/task.types';
 type createTaskUseCaseCommand={
     title: string;
     description?: string;
     assigneeId?: string;
+    
 }
 
 interface createTaskUseCaseRepository{
@@ -23,7 +25,12 @@ class CreateTaskUseCase{
                 title:command.title,
                 description:command.description,
                 assigneeId:command.assigneeId,
-            })
+                status:"todo",
+                updatedAt:null,
+                deletedAt:null,
+                createdAt:null
+               
+            });
             task.create();
 
             await this.taskRepository.save(task);
