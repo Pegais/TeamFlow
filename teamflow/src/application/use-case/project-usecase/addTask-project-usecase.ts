@@ -35,3 +35,5 @@ class AddTaskToProjectUseCase{
         }
     }
 }
+
+export default AddTaskToProjectUseCase;
