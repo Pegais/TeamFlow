@@ -76,6 +76,6 @@ describe("deleting a project emits a PROJECT_DELETED event", () => {
 
         //assertions
         expect(capturedEvent).not.toBeNull();
-        expect(capturedEvent['type']).toBe("PROJECT_DELETED");
-    })
+        expect(capturedEvent['type']).toBe("PROJECT_DELETED")
+        })
 })
