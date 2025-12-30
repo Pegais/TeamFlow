@@ -13,7 +13,7 @@
  */
 
 import type { CommentProps } from "./comment.type";
-import EventAggregateRoot from "../../../observability/domainEvent/eventAggregateRoot";
+import EventAggregateRoot from "../../../domains/observability/domainEvent/eventAggregateRoot";
 class CommentDomain extends EventAggregateRoot {
     private props: CommentProps;
 
@@ -59,9 +59,11 @@ class CommentDomain extends EventAggregateRoot {
         comment.addEvent({
             type: "COMMENT_CREATED",
             occuredAt: new Date(),
+          metadata: {
             commentId: comment.props.id,
             taskId: comment.props.taskId,
             projectId: comment.props.projectId,
+          }
         });
         return comment;
     }
@@ -77,9 +79,11 @@ class CommentDomain extends EventAggregateRoot {
         this.addEvent({
             type: "COMMENT_UPDATED",
             occuredAt: new Date(),
+           metadata: {
             commentId: this.props.id,
             taskId: this.props.taskId,
             projectId: this.props.projectId,
+           }
         })
     }
 
@@ -90,9 +94,11 @@ class CommentDomain extends EventAggregateRoot {
         this.addEvent({
             type: "COMMENT_DELETED",
             occuredAt: new Date(),
-            commentId: this.props.id,
-            taskId: this.props.taskId,
-            projectId: this.props.projectId,
+            metadata: {
+                commentId: this.props.id,
+                taskId: this.props.taskId,
+                projectId: this.props.projectId,
+            }
         })
     }
 
