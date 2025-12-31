@@ -18,7 +18,7 @@
  
  */
 
-import uuidv4 = require("uuidv4");
+import { v4 as uuidv4 } from "uuid";
 import type { AuditProps, AuditAction } from "./audit.types";
 
 class AuditDomain {
@@ -43,7 +43,7 @@ class AuditDomain {
         metadata?: Record<string, any>,//Record is a utility type to create a dictionary of key value pairs.
     ): AuditDomain {
         return new AuditDomain({
-            id: uuidv4.uuid(),
+            id:uuidv4(),
             action,
             actorId,
             workspaceId,
