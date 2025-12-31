@@ -8,10 +8,10 @@
 
 export type CommentProps={
     id:string;
-    content:string;
+    content:string | undefined;
     taskId?:string | null;
     projectId?:string | null;
-    authorId:string;
+    authorId:string | undefined;
     createdAt:Date;
     updatedAt:Date;
     deletedAt:Date | null;

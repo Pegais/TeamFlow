@@ -2,10 +2,10 @@ import CommentDomain from '../../../domains/operational/comment/comment';
 import { v4 as uuidv4 } from 'uuid';
 import EventDispatcher from '../../event-dispatcher/eventDispatcher';
 type createCommentUseCaseCommand={
-    content:string;
-    taskId?:string | null;
-    projectId?:string | null;
-    authorId:string;
+    content:string | undefined;
+    taskId:string | null;
+    projectId:string | null;
+    authorId:string | undefined;
 }
 
 interface createCommentUseCaseRepository{
@@ -28,7 +28,9 @@ class CreateCommentUseCase{
                 taskId:command.taskId,
                 projectId:command.projectId,
                 authorId:command.authorId,
-               
+                createdAt:new Date(),
+                updatedAt:new Date(),
+                deletedAt:null,
             })
             await this.createCommentUseCaseRepository.save(comment);
 

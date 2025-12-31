@@ -26,3 +26,55 @@ describe("createComment", () => {
 
     });
 });
+
+/**
+ * creating a comment should emit COMMENT_CREATED event.
+ * 
+ */
+class FakeCommentRepository{
+    private comments:CommentDomain[]=[];
+   
+    public async save(comment:CommentDomain):Promise<void>{
+        this.comments.push(comment);
+        console.log(`Comment saved`);
+        return Promise.resolve();
+    }
+}
+
+class fakeSubscriber{
+    handler(event:any):Promise<void>{
+        console.log(`Event received: ${event.type}`);
+        return Promise.resolve();
+    }
+}
+
+import eventBus from "../../../domains/observability/domainEvent/eventBus";
+import CreateCommentUseCase
+ from "../../../application/use-case/comment-usecase/create-comment-usecase";
+
+
+ describe("createComment", () => {
+    test('should emit COMMENT_CREATED event', async () => {
+       
+        //actions
+        const fakeCommentRepository = new FakeCommentRepository();
+        const subscriber = new fakeSubscriber();
+        //event asubscription
+        let capturedEvent:any=null;
+        eventBus.subscribe("COMMENT_CREATED",async(event:any)=>{
+            capturedEvent=event;
+            await subscriber.handler(event);
+
+        });
+        const createCommentUseCase = new CreateCommentUseCase(fakeCommentRepository);
+        await createCommentUseCase.execute({
+            content:"this is a test comment",
+            taskId:"task-1",
+            projectId:null,
+            authorId:"456",
+        });
+        //assertions
+        expect(capturedEvent).not.toBeNull();
+        expect(capturedEvent.type).toBe("COMMENT_CREATED");
+    })
+ })
