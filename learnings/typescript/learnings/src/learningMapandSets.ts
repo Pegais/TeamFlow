@@ -168,3 +168,143 @@ tempMap.clear(); // Remove everything
 console.log('After clear:', tempMap.size); // Output: 0
 console.log('Is map empty?', tempMap.size === 0); // Output: true
 
+/**
+ * Q9: How to loop through a Map using forEach?
+ * 
+ * forEach() lets you visit each key-value pair in the Map.
+ * It's like going through each item one by one and doing something with it.
+ */
+
+const notificationMap = new Map<string, { message: string; read: boolean }>();
+notificationMap.set('notif-1', { message: 'New task assigned', read: false });
+notificationMap.set('notif-2', { message: 'Workspace updated', read: true });
+notificationMap.set('notif-3', { message: 'New member joined', read: false });
+
+// Loop through and do something with each entry
+notificationMap.forEach((value, key) => {
+    console.log(`Notification ${key}: ${value.message} - Read: ${value.read}`);
+});
+// Output:
+// Notification notif-1: New task assigned - Read: false
+// Notification notif-2: Workspace updated - Read: true
+// Notification notif-3: New member joined - Read: false
+
+// Example: Count unread notifications
+let unreadCount = 0;
+notificationMap.forEach((value) => {
+    if (!value.read) {
+        unreadCount++;
+    }
+});
+console.log('Unread notifications:', unreadCount); // Output: 2
+
+/**
+ * Q10: How to loop through a Map using for...of?
+ * 
+ * You can use for...of loop to iterate through a Map.
+ * This gives you access to [key, value] pairs in each iteration.
+ */
+
+const teamMap = new Map<string, string>();
+teamMap.set('user-1', 'Alice');
+teamMap.set('user-2', 'Bob');
+teamMap.set('user-3', 'Charlie');
+
+// Loop through entries (each entry is [key, value])
+for (const [userId, userName] of teamMap) {
+    console.log(`${userId} is ${userName}`);
+}
+// Output:
+// user-1 is Alice
+// user-2 is Bob
+// user-3 is Charlie
+
+// You can also use entries() method explicitly (it's the same)
+for (const [userId, userName] of teamMap.entries()) {
+    console.log(`Team member: ${userName} (ID: ${userId})`);
+}
+
+/**
+ * Q11: How to get all keys from a Map?
+ * 
+ * Use the keys() method to get an iterator of all keys.
+ * Useful when you only need the keys, not the values.
+ */
+
+const workspaceUsersMap = new Map<string, string>();
+workspaceUsersMap.set('user-1', 'owner');
+workspaceUsersMap.set('user-2', 'teamhead');
+workspaceUsersMap.set('user-3', 'member');
+workspaceUsersMap.set('user-4', 'member');
+
+// Get all keys as an array
+const allUserIds = Array.from(workspaceUsersMap.keys());
+console.log('All user IDs:', allUserIds);
+// Output: ['user-1', 'user-2', 'user-3', 'user-4']
+
+// Loop through just the keys
+for (const userId of workspaceUsersMap.keys()) {
+    console.log('User ID:', userId);
+}
+
+// Example: Check if a user exists in workspace
+const userIdToCheck = 'user-2';
+if (allUserIds.includes(userIdToCheck)) {
+    console.log(`${userIdToCheck} is in the workspace`);
+}
+
+/**
+ * Q12: How to get all values from a Map?
+ * 
+ * Use the values() method to get an iterator of all values.
+ * Useful when you only need the values, not the keys.
+ */
+
+// Get all values as an array
+const allRoles = Array.from(workspaceUsersMap.values());
+console.log('All roles:', allRoles);
+// Output: ['owner', 'teamhead', 'member', 'member']
+
+// Loop through just the values
+for (const role of workspaceUsersMap.values()) {
+    console.log('Role:', role);
+}
+
+// Example: Count how many members have a specific role
+const memberCount = allRoles.filter(role => role === 'member').length;
+console.log('Number of members:', memberCount); // Output: 2
+
+/**
+ * Q13: How to get all entries (key-value pairs) from a Map?
+ * 
+ * Use the entries() method to get an iterator of all [key, value] pairs.
+ * This is useful when you need both keys and values together.
+ */
+
+const taskAssignmentsMap = new Map<string, string>();
+taskAssignmentsMap.set('task-1', 'user-1');
+taskAssignmentsMap.set('task-2', 'user-2');
+taskAssignmentsMap.set('task-3', 'user-1');
+
+// Get all entries as an array
+const allAssignments = Array.from(taskAssignmentsMap.entries());
+console.log('All task assignments:', allAssignments);
+// Output: [['task-1', 'user-1'], ['task-2', 'user-2'], ['task-3', 'user-1']]
+
+// Loop through entries
+for (const [taskId, userId] of taskAssignmentsMap.entries()) {
+    console.log(`Task ${taskId} is assigned to ${userId}`);
+}
+// Output:
+// Task task-1 is assigned to user-1
+// Task task-2 is assigned to user-2
+// Task task-3 is assigned to user-1
+
+// Example: Find all tasks assigned to a specific user
+const targetUserId = 'user-1';
+const tasksForUser = allAssignments
+    .filter(([taskId, userId]) => userId === targetUserId)
+    .map(([taskId]) => taskId);
+console.log(`Tasks for ${targetUserId}:`, tasksForUser);
+// Output: ['task-1', 'task-3']
+
