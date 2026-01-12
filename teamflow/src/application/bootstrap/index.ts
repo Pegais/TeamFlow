@@ -7,3 +7,4 @@ console.log("Teamflow is running");
 //create repository
 import inMemoryWorkspaceRepository from "../../infra/repository/in-memory/inMemoryWorkspaceRepo"
 import inMemorrProjectRepository from "../../infra/repository/in-memory/inMemoryProjectRepo"
+import inMemoryTaskRepository from "../../infra/repository/in-memory/inMemoryTaskrepo"
