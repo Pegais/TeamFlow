@@ -17,6 +17,18 @@ async function main() {
             actorId: "owner-1"
         });
         console.log("Member added to workspace successfully...");
+        await workspace.removeWorkspaceMember.execute({
+            workspaceId: newWorkspace["props"].id,
+            userId: "456",
+            actorId: "owner-1"
+        });
+        console.log("Member removed from workspace successfully...");
+        await workspace.deleteWorkspace.execute({
+            workspaceId: newWorkspace["props"].id,
+            actorId: "owner-1",
+            hasActiveTasks: false
+        });
+        console.log("Workspace deleted successfully...");
     } catch (error) {
         console.log(error);
 
