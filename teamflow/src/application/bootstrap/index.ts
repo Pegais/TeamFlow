@@ -23,10 +23,14 @@ const addWorkspaceMemberUseCase = new AddWorkspaceMemberUseCase(workspaceReposit
 //remove workspace member use case
 const removeWorkspaceMemberUseCase = new RemoveWorkspaceMemberUseCase(workspaceRepository);
 
+//delete workspace use case
+const deleteWorkspaceUseCase = new DeleteWorkspaceUseCase(workspaceRepository);
+
 export const workspace= {
     
         addWorkspaceMember: addWorkspaceMemberUseCase,
         removeWorkspaceMember: removeWorkspaceMemberUseCase,
+        deleteWorkspace: deleteWorkspaceUseCase,
     
 }
 export{workspaceRepository, projectRepository, taskRepository};

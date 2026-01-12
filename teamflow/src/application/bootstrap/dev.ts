@@ -23,6 +23,12 @@ async function main() {
             actorId: "owner-1"
         });
         console.log("Member removed from workspace successfully...");
+        await workspace.deleteWorkspace.execute({
+            workspaceId: newWorkspace["props"].id,
+            actorId: "owner-1",
+            hasActiveTasks: false
+        });
+        console.log("Workspace deleted successfully...");
     } catch (error) {
         console.log(error);
 
