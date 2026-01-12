@@ -88,11 +88,15 @@ const handlers = {
 
         //todo : persist to activity /audit store;
         //activityRepository.save(event);
+        console.log(`Activity log handler "${event.type}"  received with payload ${JSON.stringify(event.metadata)}`);
+        
 
     },
     notify: async (event: DomainEvent) => {
         //TODO:send notifications /enqueue
         //notificationService.send(event);
+        console.log(`Notification handler "${event.type}" received with payload ${JSON.stringify(event.metadata)}`);
+        
     },
     projectProjections:     async (event: DomainEvent) => {
         //TODO:update project read models (status ,archieve /delete flags)
@@ -114,14 +118,19 @@ const handlers = {
     workspaceProjections:   async (event: DomainEvent) => {
         //TODO:update workspace read models
         //workspaceRepository.update(event);
+        console.log(`Workspace projection handler "${event.type}"  received with payload ${JSON.stringify(event.metadata)}`);
     },
 }
 
 
 //subscription registration :
 function registerSubscribers() {
+    console.log("Registering subscribers.....");
+    
     const on = (type: string, handler: (event: DomainEvent) => Promise<void>) => {
         eventBus.subscribe(type, handler);
+        console.log(`Subscribed to event: ${type}`);
+        
     }
 
     //task domain events :
@@ -166,7 +175,9 @@ function registerSubscribers() {
         on(i, handlers.invitationProjections);
         on(i, handlers.notify);
     });
-
+  //log the subscribers
+  console.log("Subscribers registered successfully");
+  
 }
 
 export default registerSubscribers;
