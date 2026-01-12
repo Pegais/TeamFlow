@@ -20,11 +20,13 @@ import DeleteWorkspaceUseCase from "../use-case/workspace-usecase/delete-workspa
 
 
 const addWorkspaceMemberUseCase = new AddWorkspaceMemberUseCase(workspaceRepository);
-
+//remove workspace member use case
+const removeWorkspaceMemberUseCase = new RemoveWorkspaceMemberUseCase(workspaceRepository);
 
 export const workspace= {
     
         addWorkspaceMember: addWorkspaceMemberUseCase,
+        removeWorkspaceMember: removeWorkspaceMemberUseCase,
     
 }
 export{workspaceRepository, projectRepository, taskRepository};
