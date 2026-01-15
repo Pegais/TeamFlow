@@ -30,11 +30,14 @@ async function main() {
         });
         console.log("Workspace deleted successfully...");
         //create a project
-        await project.createProject.execute({
+       let newProject=await project.createProject.execute({
             name: "Test Project",
             workspaceId: newWorkspace["props"].id
         });
-        console.log("Project created successfully...");
+        console.log("Project created successfully...",newProject);
+        //archive the project
+     
+        console.log("Project archived successfully...");
     } catch (error) {
         console.log(error);
 
