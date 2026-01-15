@@ -46,13 +46,13 @@ async function main() {
             });
             console.log("Task added to project successfully...");
         }
-    //    //archive the project
-    //    if(projectIds.length > 0){
-    //     await project.archiveProject.execute({
-    //         projectId: projectIds[projectIds.length - 1]!,
+       //archive the project
+       if(projectIds.length > 0){
+        await project.archiveProject.execute({
+            projectId: projectIds[projectIds.length - 1]!,
             
-    //     });
-    //    }
+        });
+       }
         console.log("Project archived successfully...");
         //adding a task to acrhived project;
         // await project.addTaskToProject.execute({
@@ -88,6 +88,14 @@ async function main() {
             });
         }
         console.log("Project renamed successfully...");
+
+        //restore the archived project
+        if(projectIds.length > 0){
+            await project.restoreProject.execute({
+                projectId: projectIds[projectIds.length - 1]!,
+            });
+            console.log("Project restored successfully...");
+        }
 
     } catch (error) {
         console.log(error);
