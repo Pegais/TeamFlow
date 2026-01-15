@@ -14,6 +14,9 @@ class InMemoryTaskRepo {
         this.store.set(task["props"].id, task);
         return Promise.resolve();
     }
+    getAllTaskIds(): string[] {
+        return Array.from(this.store.keys());
+    }
 }
 
 export default InMemoryTaskRepo;

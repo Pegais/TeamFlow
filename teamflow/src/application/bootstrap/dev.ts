@@ -1,4 +1,4 @@
-import { workspace,workspaceRepository ,project,projectRepository} from "./index";
+import { workspace,workspaceRepository ,project,projectRepository,task,taskRepository} from "./index";
 import WorkspaceDomain from "../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace";
 async function main() {
     console.log("Starting the application");
@@ -36,15 +36,32 @@ async function main() {
         console.log("Project created successfully...");
         //archive the project
        //get all project ids
+
+       //creating a task and passing it to the project ;
+       await task.createTask.execute({
+        title: "Test Task",
+        description: "Test Description",
+        assigneeId: "123"
+       });
+       console.log("Task created successfully...");
+       let taskIds=taskRepository.getAllTaskIds();
        let projectIds=projectRepository.getAllPorjectIds();
        console.log("Project ids:",projectIds);
        //adding task to project
-       if(projectIds.length > 0){   
+       if(projectIds.length > 0 && taskIds.length > 0){   
        await project.addTaskToProject.execute({
             projectId: projectIds[projectIds.length - 1]!,
-            taskId: "123"
+            taskId: taskIds[taskIds.length - 1]!
             });
             console.log("Task added to project successfully...");
+        }
+
+        //starting the task
+        if(taskIds.length > 0){
+            await task.startTask.execute({
+                taskId: taskIds[taskIds.length - 1]!
+            });
+            console.log("Task started successfully...");
         }
        //archive the project
        if(projectIds.length > 0){
@@ -95,6 +112,23 @@ async function main() {
                 projectId: projectIds[projectIds.length - 1]!,
             });
             console.log("Project restored successfully...");
+        }
+
+        //remove task from the project
+        if(projectIds.length > 0){
+            await project.removeTaskFromProject.execute({
+                projectId: projectIds[projectIds.length - 1]!,
+                taskId: "123"
+            });
+            console.log("Task removed from project successfully...");
+        }
+
+        //completing the task
+        if(taskIds.length > 0){
+            await task.completeTask.execute({
+                taskId: taskIds[taskIds.length - 1]!
+            });
+            console.log("Task completed successfully...");
         }
 
     } catch (error) {
