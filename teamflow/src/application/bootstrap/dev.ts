@@ -123,6 +123,14 @@ async function main() {
             console.log("Task removed from project successfully...");
         }
 
+        //completing the task
+        if(taskIds.length > 0){
+            await task.completeTask.execute({
+                taskId: taskIds[taskIds.length - 1]!
+            });
+            console.log("Task completed successfully...");
+        }
+
     } catch (error) {
         console.log(error);
 
