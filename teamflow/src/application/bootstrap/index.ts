@@ -8,11 +8,11 @@ console.log("Teamflow is running");
 import inMemoryWorkspaceRepository from "../../infra/repository/in-memory/inMemoryWorkspaceRepo"
 import inMemorrProjectRepository from "../../infra/repository/in-memory/inMemoryProjectRepo"
 import inMemoryTaskRepository from "../../infra/repository/in-memory/inMemoryTaskrepo"
-
+import inMemoryInvitationRepository from "../../infra/repository/in-memory/inMemoryInvitationrepo"
 const workspaceRepository = new inMemoryWorkspaceRepository();
 const projectRepository = new inMemorrProjectRepository();
 const taskRepository = new inMemoryTaskRepository();
-
+const invitationRepository = new inMemoryInvitationRepository();
 //creating use cases
 import AddWorkspaceMemberUseCase from "../use-case/workspace-usecase/add-memberWorkspace-usecase";
 import RemoveWorkspaceMemberUseCase from "../use-case/workspace-usecase/remove-memberWorkspace-usecase";
@@ -59,6 +59,16 @@ const createTaskUseCase = new CreateTaskUseCase(taskRepository);
 const startTaskUseCase = new StartTaskUseCase(taskRepository);
 const completeTaskUseCase = new CompleteTaskUseCase(taskRepository);
 
+
+//invitation use cases
+import AcceptInvitationUseCase from "../use-case/invitation/accept-invitation-usecase";
+const acceptInvitationUseCase = new AcceptInvitationUseCase(invitationRepository);
+
+//invitation use cases instances
+export const invitation= {
+    acceptInvitation: acceptInvitationUseCase,
+}
+
 //tasks
 export const task= {
     createTask: createTaskUseCase,
@@ -83,4 +93,4 @@ export const project= {
         restoreProject: restoreProjectUseCase,
         removeTaskFromProject: removeTaskFromProjectUseCase,
 }
-export{workspaceRepository, projectRepository, taskRepository};
+export{workspaceRepository, projectRepository, taskRepository, invitationRepository};

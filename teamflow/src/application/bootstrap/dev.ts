@@ -1,5 +1,7 @@
-import { workspace,workspaceRepository ,project,projectRepository,task,taskRepository} from "./index";
+import { workspace,workspaceRepository ,project,projectRepository,
+    task,taskRepository,invitation,invitationRepository} from "./index";
 import WorkspaceDomain from "../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace";
+import InvitationDomain from "../../domains/lifecycle/invitation/invitation";
 async function main() {
     console.log("Starting the application");
     //create a workspace
@@ -131,6 +133,22 @@ async function main() {
             console.log("Task completed successfully...");
         }
 
+
+         //creating an invitation
+         const newInvitation = InvitationDomain.create({
+            id: "123",
+            workspaceId: newWorkspace["props"].id,
+            email: "test@example.com",
+            role: "member",
+            expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24),
+            status: "pending",
+            acceptedAt: null,
+            revokedAt: null,
+            createdAt: new Date(),
+         });
+         await invitationRepository.save(newInvitation);
+         console.log("Invitation created successfully...");  
+         
     } catch (error) {
         console.log(error);
 

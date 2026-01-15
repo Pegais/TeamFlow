@@ -116,6 +116,7 @@ const handlers = {
     invitationProjections: async (event: DomainEvent) => {
         //TODO:update invitation read models
         //invitationRepository.update(event);
+        console.log(`Invitation projection handler "${event.type}"  received with payload ${JSON.stringify(event.metadata)}`);
     },
     workspaceProjections:   async (event: DomainEvent) => {
         //TODO:update workspace read models
