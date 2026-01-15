@@ -68,6 +68,10 @@ class TaskDomain extends EventAggregateRoot {
         this.addEvent({
             type: "TASK_CREATED",
             occuredAt: new Date(),
+            metadata: {
+                title: this.props.title,
+                id: this.props.id,
+            },
         });
     }
 
@@ -85,6 +89,9 @@ class TaskDomain extends EventAggregateRoot {
         this.addEvent({
             type: "TASK_STARTED",
             occuredAt: new Date(),
+            metadata: {
+                id: this.props.id,
+            },
         });
     }
 
@@ -102,6 +109,9 @@ class TaskDomain extends EventAggregateRoot {
         this.addEvent({
             type: "TASK_COMPLETED",
             occuredAt: new Date(),
+            metadata: {
+                id: this.props.id,
+            },
         });
     }
 }

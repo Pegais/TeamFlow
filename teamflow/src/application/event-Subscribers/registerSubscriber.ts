@@ -105,6 +105,8 @@ const handlers = {
     taskProjections: async (event: DomainEvent) => {
         //TODO:update task read models (status ,timestamps)
         //taskRepository.update(event);
+        console.log(`Task projection handler "${event.type}"  received with payload ${JSON.stringify(event.metadata)}`);
+        
     },
     commentProjections: async (event: DomainEvent) => {
         //TODO:update comment read models

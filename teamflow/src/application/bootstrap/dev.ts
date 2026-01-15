@@ -55,6 +55,14 @@ async function main() {
             });
             console.log("Task added to project successfully...");
         }
+
+        //starting the task
+        if(taskIds.length > 0){
+            await task.startTask.execute({
+                taskId: taskIds[taskIds.length - 1]!
+            });
+            console.log("Task started successfully...");
+        }
        //archive the project
        if(projectIds.length > 0){
         await project.archiveProject.execute({
