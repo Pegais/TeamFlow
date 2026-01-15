@@ -58,5 +58,6 @@ export const project= {
         archiveProject: archiveProjectUseCase,
         addTaskToProject: addTaskToProjectUseCase,
         deleteProject: deleteProjectUseCase,
+        renameProject: renameProjectUseCase,
 }
 export{workspaceRepository, projectRepository, taskRepository};

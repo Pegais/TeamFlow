@@ -79,6 +79,16 @@ async function main() {
         //     });
         // }
         // console.log("Trying to add task to deleted project...");
+
+        //rename the project
+        if(projectIds.length > 0){
+            await project.renameProject.execute({
+                projectId: projectIds[projectIds.length - 1]!,
+                newName: "Test Project 2"
+            });
+        }
+        console.log("Project renamed successfully...");
+
     } catch (error) {
         console.log(error);
 
