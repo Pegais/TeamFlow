@@ -39,9 +39,12 @@ async function main() {
        let projectIds=projectRepository.getAllPorjectIds();
        console.log("Project ids:",projectIds);
        //archive the project
+       if(projectIds.length > 0){
         await project.archiveProject.execute({
-            projectId: projectIds[projectIds.length-1]!
-        })
+            projectId: projectIds[projectIds.length - 1]!,
+            
+        });
+       }
         console.log("Project archived successfully...");
     } catch (error) {
         console.log(error);
