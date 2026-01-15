@@ -49,6 +49,23 @@ const restoreProjectUseCase = new RestoreProjectUseCase(projectRepository);
 //remove task from project use case
 const removeTaskFromProjectUseCase = new RemoveTaskFromProjectUseCase(projectRepository);
 
+//tasks
+import CreateTaskUseCase from "../use-case/task-usecase/create-task-usecase";
+import StartTaskUseCase from "../use-case/task-usecase/start-task-usecase";
+import CompleteTaskUseCase from "../use-case/task-usecase/complete-task-usecase";
+
+//creating task use cases instances
+const createTaskUseCase = new CreateTaskUseCase(taskRepository);
+const startTaskUseCase = new StartTaskUseCase(taskRepository);
+const completeTaskUseCase = new CompleteTaskUseCase(taskRepository);
+
+//tasks
+export const task= {
+    createTask: createTaskUseCase,
+    startTask: startTaskUseCase,
+    completeTask: completeTaskUseCase,
+}
+
 export const workspace= {
     
         addWorkspaceMember: addWorkspaceMemberUseCase,
