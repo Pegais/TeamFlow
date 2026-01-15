@@ -6,7 +6,7 @@
 import type { InvitationProps } from "./invitation.types";
 import type { WorkspaceRole } from "../../coretruthDomain/user/workspaceDomains/workspace/workspace.types";
 import type { InvitationStatus } from "./invitation.types";
-import EventAggregateRoot from "../../../observability/domainEvent/eventAggregateRoot";
+import EventAggregateRoot from "../../observability/domainEvent/eventAggregateRoot";
 
 class InvitationDomain extends EventAggregateRoot {
     private props: InvitationProps;
@@ -43,10 +43,12 @@ class InvitationDomain extends EventAggregateRoot {
     invitation.addEvent({
         type: "INVITATION_CREATED",
         occuredAt: new Date(),
-        invitationId: invitation.props.id,
-        workspaceId: invitation.props.workspaceId,
-        email: invitation.props.email,
-        role: invitation.props.role,
+        metadata: {
+            id: invitation.props.id,
+            workspaceId: invitation.props.workspaceId,
+            email: invitation.props.email,
+            role: invitation.props.role,
+        },
     });
     return invitation;
   }
@@ -61,10 +63,12 @@ class InvitationDomain extends EventAggregateRoot {
         this.addEvent({
             type: "INVITATION_ACCEPTED",
             occuredAt: new Date(),
-            invitationId: this.props.id,
+           metadata: {
+            id: this.props.id,
             workspaceId: this.props.workspaceId,
             email: this.props.email,
             role: this.props.role,
+           },
         });
     }
 
@@ -80,10 +84,12 @@ class InvitationDomain extends EventAggregateRoot {
         this.addEvent({
             type: "INVITATION_REVOKED",
             occuredAt: new Date(),
-            invitationId: this.props.id,
+          metadata: {
+            id: this.props.id,
             workspaceId: this.props.workspaceId,
             email: this.props.email,
             role: this.props.role,
+          },
         });
     }
 
@@ -100,10 +106,12 @@ class InvitationDomain extends EventAggregateRoot {
         this.addEvent({
             type: "INVITATION_EXPIRED",
             occuredAt: new Date(),
-            invitationId: this.props.id,
+           metadata: {
+            id: this.props.id,
             workspaceId: this.props.workspaceId,
             email: this.props.email,
             role: this.props.role,
+           },
         });
    
     }
