@@ -97,6 +97,15 @@ async function main() {
             console.log("Project restored successfully...");
         }
 
+        //remove task from the project
+        if(projectIds.length > 0){
+            await project.removeTaskFromProject.execute({
+                projectId: projectIds[projectIds.length - 1]!,
+                taskId: "123"
+            });
+            console.log("Task removed from project successfully...");
+        }
+
     } catch (error) {
         console.log(error);
 
