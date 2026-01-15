@@ -38,6 +38,12 @@ async function main() {
        //get all project ids
        let projectIds=projectRepository.getAllPorjectIds();
        console.log("Project ids:",projectIds);
+       //adding task to project
+       await project.addTaskToProject.execute({
+        projectId: projectIds[projectIds.length - 1]!,
+        taskId: "123"
+       });
+       console.log("Task added to project successfully...");
        //archive the project
        if(projectIds.length > 0){
         await project.archiveProject.execute({
