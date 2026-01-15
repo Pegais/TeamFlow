@@ -39,25 +39,33 @@ async function main() {
        let projectIds=projectRepository.getAllPorjectIds();
        console.log("Project ids:",projectIds);
        //adding task to project
+       if(projectIds.length > 0){   
        await project.addTaskToProject.execute({
-        projectId: projectIds[projectIds.length - 1]!,
-        taskId: "123"
-       });
-       console.log("Task added to project successfully...");
-       //archive the project
-       if(projectIds.length > 0){
-        await project.archiveProject.execute({
-            projectId: projectIds[projectIds.length - 1]!,
-            
-        });
-       }
-        console.log("Project archived successfully...");
-        //adding a task to acrhived project;
-        await project.addTaskToProject.execute({
             projectId: projectIds[projectIds.length - 1]!,
             taskId: "123"
+            });
+            console.log("Task added to project successfully...");
+        }
+    //    //archive the project
+    //    if(projectIds.length > 0){
+    //     await project.archiveProject.execute({
+    //         projectId: projectIds[projectIds.length - 1]!,
+            
+    //     });
+    //    }
+        console.log("Project archived successfully...");
+        //adding a task to acrhived project;
+        // await project.addTaskToProject.execute({
+        //     projectId: projectIds[projectIds.length - 1]!,
+        //     taskId: "123"
+        // });
+        // console.log("Task added to archived project successfully...");
+        //delete the project
+        await project.deleteProject.execute({
+            projectId: projectIds[projectIds.length - 1]!,
+            hasActiveTasks: false
         });
-        console.log("Task added to archived project successfully...");
+        console.log("Project deleted successfully...");
     } catch (error) {
         console.log(error);
 

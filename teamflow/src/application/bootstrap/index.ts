@@ -40,6 +40,8 @@ const createProjectUseCase = new CreateProjectUseCase(projectRepository);
 const archiveProjectUseCase = new ArchiveProjectUseCase(projectRepository);
 //create new task project use case
 const addTaskToProjectUseCase = new AddTaskToProjectUseCase(projectRepository);
+//delete project use case
+const deleteProjectUseCase = new DeleteProjectUseCase(projectRepository);
 
 export const workspace= {
     
@@ -53,5 +55,6 @@ export const project= {
         createProject: createProjectUseCase,
         archiveProject: archiveProjectUseCase,
         addTaskToProject: addTaskToProjectUseCase,
+        deleteProject: deleteProjectUseCase,
 }
 export{workspaceRepository, projectRepository, taskRepository};
