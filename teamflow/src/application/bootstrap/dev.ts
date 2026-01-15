@@ -39,11 +39,13 @@ async function main() {
        let projectIds=projectRepository.getAllPorjectIds();
        console.log("Project ids:",projectIds);
        //adding task to project
+       if(projectIds.length > 0){   
        await project.addTaskToProject.execute({
-        projectId: projectIds[projectIds.length - 1]!,
-        taskId: "123"
-       });
-       console.log("Task added to project successfully...");
+            projectId: projectIds[projectIds.length - 1]!,
+            taskId: "123"
+            });
+            console.log("Task added to project successfully...");
+        }
        //archive the project
        if(projectIds.length > 0){
         await project.archiveProject.execute({
@@ -53,11 +55,48 @@ async function main() {
        }
         console.log("Project archived successfully...");
         //adding a task to acrhived project;
-        await project.addTaskToProject.execute({
-            projectId: projectIds[projectIds.length - 1]!,
-            taskId: "123"
-        });
-        console.log("Task added to archived project successfully...");
+        // await project.addTaskToProject.execute({
+        //     projectId: projectIds[projectIds.length - 1]!,
+        //     taskId: "123"
+        // });
+        // console.log("Task added to archived project successfully...");
+        //delete the project
+        // await project.deleteProject.execute({
+        //     projectId: projectIds[projectIds.length - 1]!,
+        //     hasActiveTasks: false
+        // });
+        // console.log("Project deleted successfully...");
+
+        //checking projectids after deletion
+        // let projectIdsAfterDeletion=projectRepository.getAllPorjectIds();
+        // console.log("Project ids after deletion:",projectIdsAfterDeletion);
+
+        //add task to deleted project
+        // if(projectIdsAfterDeletion.length > 0){
+        //     await project.addTaskToProject.execute({
+        //         projectId: projectIdsAfterDeletion[projectIdsAfterDeletion.length - 1]!,
+        //         taskId: "123"
+        //     });
+        // }
+        // console.log("Trying to add task to deleted project...");
+
+        //rename the project
+        if(projectIds.length > 0){
+            await project.renameProject.execute({
+                projectId: projectIds[projectIds.length - 1]!,
+                newName: "Test Project 2"
+            });
+        }
+        console.log("Project renamed successfully...");
+
+        //restore the archived project
+        if(projectIds.length > 0){
+            await project.restoreProject.execute({
+                projectId: projectIds[projectIds.length - 1]!,
+            });
+            console.log("Project restored successfully...");
+        }
+
     } catch (error) {
         console.log(error);
 

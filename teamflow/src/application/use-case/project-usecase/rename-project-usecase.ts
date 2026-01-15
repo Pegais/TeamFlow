@@ -1,13 +1,13 @@
 import ProjectDomain from '../../../domains/operational/project/project';
 import EventDispatcher from '../../event-dispatcher/eventDispatcher';
 type renameProjectUseCaseCommand = {
-    projectExistingName: string;
+    projectId: string;
     newName: string;
 }
 
 
 interface renameProjectUseCaseRepository {
-    findByName(name: string): Promise<InstanceType<typeof ProjectDomain> | null>;
+    findById(name: string): Promise<InstanceType<typeof ProjectDomain> | null>;
     save(project: InstanceType<typeof ProjectDomain>): Promise<void>;
 }
 
@@ -18,9 +18,9 @@ class RenameProjectUseCase {
 
     public async execute(command: renameProjectUseCaseCommand): Promise<void> {
         try {
-            const project = await this.projectRepository.findByName(command.projectExistingName);
+            const project = await this.projectRepository.findById(command.projectId);
             if (!project) {
-                throw new Error(`Project with name ${command.projectExistingName} not found`);
+                throw new Error(`Project with name ${command.projectId} not found`);
             }
             project.rename(command.newName);
             await this.projectRepository.save(project);
