@@ -61,11 +61,11 @@ async function main() {
         // });
         // console.log("Task added to archived project successfully...");
         //delete the project
-        await project.deleteProject.execute({
-            projectId: projectIds[projectIds.length - 1]!,
-            hasActiveTasks: false
-        });
-        console.log("Project deleted successfully...");
+        // await project.deleteProject.execute({
+        //     projectId: projectIds[projectIds.length - 1]!,
+        //     hasActiveTasks: false
+        // });
+        // console.log("Project deleted successfully...");
 
         //checking projectids after deletion
         // let projectIdsAfterDeletion=projectRepository.getAllPorjectIds();
