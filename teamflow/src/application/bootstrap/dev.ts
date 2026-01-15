@@ -1,4 +1,4 @@
-import { workspace,workspaceRepository } from "./index";
+import { workspace,workspaceRepository ,project} from "./index";
 import WorkspaceDomain from "../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace";
 
 async function main() {
@@ -29,6 +29,12 @@ async function main() {
             hasActiveTasks: false
         });
         console.log("Workspace deleted successfully...");
+        //create a project
+        await project.createProject.execute({
+            name: "Test Project",
+            workspaceId: newWorkspace["props"].id
+        });
+        console.log("Project created successfully...");
     } catch (error) {
         console.log(error);
 

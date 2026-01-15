@@ -18,7 +18,14 @@ import AddWorkspaceMemberUseCase from "../use-case/workspace-usecase/add-memberW
 import RemoveWorkspaceMemberUseCase from "../use-case/workspace-usecase/remove-memberWorkspace-usecase";
 import DeleteWorkspaceUseCase from "../use-case/workspace-usecase/delete-workspace-usecase";
 
-
+//creating project use cases
+import CreateProjectUseCase from "../use-case/project-usecase/create-project-usecase";
+import ArchiveProjectUseCase from "../use-case/project-usecase/archive-project-usecase";
+import DeleteProjectUseCase from "../use-case/project-usecase/delete-project-usecase";
+import AddTaskToProjectUseCase from "../use-case/project-usecase/addTask-project-usecase";
+import RemoveTaskFromProjectUseCase from "../use-case/project-usecase/removeTask-project-usecase";
+import RenameProjectUseCase from "../use-case/project-usecase/rename-project-usecase";
+import RestoreProjectUseCase from "../use-case/project-usecase/restore-project-usecase";
 const addWorkspaceMemberUseCase = new AddWorkspaceMemberUseCase(workspaceRepository);
 //remove workspace member use case
 const removeWorkspaceMemberUseCase = new RemoveWorkspaceMemberUseCase(workspaceRepository);
@@ -26,11 +33,18 @@ const removeWorkspaceMemberUseCase = new RemoveWorkspaceMemberUseCase(workspaceR
 //delete workspace use case
 const deleteWorkspaceUseCase = new DeleteWorkspaceUseCase(workspaceRepository);
 
+
+//creating project use cases instances
+const createProjectUseCase = new CreateProjectUseCase(projectRepository);
+
 export const workspace= {
     
         addWorkspaceMember: addWorkspaceMemberUseCase,
         removeWorkspaceMember: removeWorkspaceMemberUseCase,
         deleteWorkspace: deleteWorkspaceUseCase,
-    
+           
+}
+export const project= {
+        createProject: createProjectUseCase,
 }
 export{workspaceRepository, projectRepository, taskRepository};
