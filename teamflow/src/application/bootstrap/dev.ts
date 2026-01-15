@@ -46,6 +46,12 @@ async function main() {
         });
        }
         console.log("Project archived successfully...");
+        //adding a task to acrhived project;
+        await project.addTaskToProject.execute({
+            projectId: projectIds[projectIds.length - 1]!,
+            taskId: "123"
+        });
+        console.log("Task added to archived project successfully...");
     } catch (error) {
         console.log(error);
 
