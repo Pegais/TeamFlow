@@ -1,6 +1,5 @@
-import { workspace,workspaceRepository ,project} from "./index";
+import { workspace,workspaceRepository ,project,projectRepository} from "./index";
 import WorkspaceDomain from "../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace";
-
 async function main() {
     console.log("Starting the application");
     //create a workspace
@@ -30,13 +29,19 @@ async function main() {
         });
         console.log("Workspace deleted successfully...");
         //create a project
-       let newProject=await project.createProject.execute({
+       await project.createProject.execute({
             name: "Test Project",
             workspaceId: newWorkspace["props"].id
         });
-        console.log("Project created successfully...",newProject);
+        console.log("Project created successfully...");
         //archive the project
-     
+       //get all project ids
+       let projectIds=projectRepository.getAllPorjectIds();
+       console.log("Project ids:",projectIds);
+       //archive the project
+        await project.archiveProject.execute({
+            projectId: projectIds[projectIds.length-1]!
+        })
         console.log("Project archived successfully...");
     } catch (error) {
         console.log(error);
