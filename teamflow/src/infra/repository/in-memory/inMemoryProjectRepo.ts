@@ -1,3 +1,4 @@
+import type { SrvRecord } from "node:dns";
 import ProjectDomain from "../../../domains/operational/project/project";
 
 class InMemoryProjectRepo {
@@ -12,6 +13,9 @@ class InMemoryProjectRepo {
     async save(project: InstanceType<typeof ProjectDomain>): Promise<void> {
         this.store.set(project["props"].id, project);
         return Promise.resolve();
+    }
+    getAllPorjectIds():string[]{
+        return Array.from(this.store.keys());
     }
 }
 

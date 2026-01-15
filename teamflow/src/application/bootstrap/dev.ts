@@ -1,6 +1,5 @@
-import { workspace,workspaceRepository } from "./index";
+import { workspace,workspaceRepository ,project,projectRepository} from "./index";
 import WorkspaceDomain from "../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace";
-
 async function main() {
     console.log("Starting the application");
     //create a workspace
@@ -29,6 +28,36 @@ async function main() {
             hasActiveTasks: false
         });
         console.log("Workspace deleted successfully...");
+        //create a project
+       await project.createProject.execute({
+            name: "Test Project",
+            workspaceId: newWorkspace["props"].id
+        });
+        console.log("Project created successfully...");
+        //archive the project
+       //get all project ids
+       let projectIds=projectRepository.getAllPorjectIds();
+       console.log("Project ids:",projectIds);
+       //adding task to project
+       await project.addTaskToProject.execute({
+        projectId: projectIds[projectIds.length - 1]!,
+        taskId: "123"
+       });
+       console.log("Task added to project successfully...");
+       //archive the project
+       if(projectIds.length > 0){
+        await project.archiveProject.execute({
+            projectId: projectIds[projectIds.length - 1]!,
+            
+        });
+       }
+        console.log("Project archived successfully...");
+        //adding a task to acrhived project;
+        await project.addTaskToProject.execute({
+            projectId: projectIds[projectIds.length - 1]!,
+            taskId: "123"
+        });
+        console.log("Task added to archived project successfully...");
     } catch (error) {
         console.log(error);
 
