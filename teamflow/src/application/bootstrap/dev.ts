@@ -68,17 +68,17 @@ async function main() {
         console.log("Project deleted successfully...");
 
         //checking projectids after deletion
-        let projectIdsAfterDeletion=projectRepository.getAllPorjectIds();
-        console.log("Project ids after deletion:",projectIdsAfterDeletion);
+        // let projectIdsAfterDeletion=projectRepository.getAllPorjectIds();
+        // console.log("Project ids after deletion:",projectIdsAfterDeletion);
 
         //add task to deleted project
-        if(projectIdsAfterDeletion.length > 0){
-            await project.addTaskToProject.execute({
-                projectId: projectIdsAfterDeletion[projectIdsAfterDeletion.length - 1]!,
-                taskId: "123"
-            });
-        }
-        console.log("Trying to add task to deleted project...");
+        // if(projectIdsAfterDeletion.length > 0){
+        //     await project.addTaskToProject.execute({
+        //         projectId: projectIdsAfterDeletion[projectIdsAfterDeletion.length - 1]!,
+        //         taskId: "123"
+        //     });
+        // }
+        // console.log("Trying to add task to deleted project...");
     } catch (error) {
         console.log(error);
 

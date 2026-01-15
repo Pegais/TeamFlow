@@ -42,6 +42,8 @@ const archiveProjectUseCase = new ArchiveProjectUseCase(projectRepository);
 const addTaskToProjectUseCase = new AddTaskToProjectUseCase(projectRepository);
 //delete project use case
 const deleteProjectUseCase = new DeleteProjectUseCase(projectRepository);
+//rename project use case
+const renameProjectUseCase = new RenameProjectUseCase(projectRepository);
 
 export const workspace= {
     
