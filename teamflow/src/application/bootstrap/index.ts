@@ -62,11 +62,13 @@ const completeTaskUseCase = new CompleteTaskUseCase(taskRepository);
 
 //invitation use cases
 import AcceptInvitationUseCase from "../use-case/invitation/accept-invitation-usecase";
+import CreateInvitationUseCase from "../use-case/invitation/create-invitation-usecase";
 const acceptInvitationUseCase = new AcceptInvitationUseCase(invitationRepository);
-
+const createInvitationUseCase = new CreateInvitationUseCase(invitationRepository);
 //invitation use cases instances
 export const invitation= {
     acceptInvitation: acceptInvitationUseCase,
+    createInvitation: createInvitationUseCase,
 }
 
 //tasks

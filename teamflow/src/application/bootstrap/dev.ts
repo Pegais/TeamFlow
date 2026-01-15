@@ -135,18 +135,11 @@ async function main() {
 
 
          //creating an invitation
-         const newInvitation = InvitationDomain.create({
-            id: "123",
-            workspaceId: newWorkspace["props"].id,
+         await invitation.createInvitation.execute({
             email: "test@example.com",
             role: "member",
-            expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24),
-            status: "pending",
-            acceptedAt: null,
-            revokedAt: null,
-            createdAt: new Date(),
+            workspaceId: newWorkspace["props"].id
          });
-         await invitationRepository.save(newInvitation);
          console.log("Invitation created successfully...");  
          
     } catch (error) {
