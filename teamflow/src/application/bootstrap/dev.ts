@@ -142,14 +142,14 @@ async function main() {
          });
          console.log("Invitation created successfully...");  
 
-         //accepting the invitation
+        //  //accepting the invitation
          let invitationIds=invitationRepository.getAllInvitationIds();
-         if(invitationIds.length > 0){
-            await invitation.acceptInvitation.execute({
-                invitationId: invitationIds[invitationIds.length - 1]!
-            });
-            console.log("Invitation accepted successfully...");
-         }
+        //  if(invitationIds.length > 0){
+        //     await invitation.acceptInvitation.execute({
+        //         invitationId: invitationIds[invitationIds.length - 1]!
+        //     });
+        //     console.log("Invitation accepted successfully...");
+        //  }
 
          //revoking the invitation
          if(invitationIds.length > 0){
