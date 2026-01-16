@@ -158,7 +158,14 @@ async function main() {
             });
             console.log("Invitation revoked successfully...");
          }
-
+         
+         //expiring the invitation
+         if(invitationIds.length > 0){
+            await invitation.expiredInvitation.execute({
+                invitationId: invitationIds[invitationIds.length - 1]!
+            });
+            console.log("Invitation expired successfully...");
+         }
    
     } catch (error) {
         console.log(error);
