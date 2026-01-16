@@ -175,8 +175,8 @@ async function main() {
 
             await comment.createComment.execute({
                 content: "Test Comment",
-                taskId:null,
-                projectId: projectIds[projectIds.length - 1]!,
+                taskId:taskIds[taskIds.length - 1]!,
+                projectId:null,
                 authorId: "123"
             });
             console.log("Comment created successfully...");
