@@ -141,6 +141,15 @@ async function main() {
             workspaceId: newWorkspace["props"].id
          });
          console.log("Invitation created successfully...");  
+
+         //accepting the invitation
+         let invitationIds=invitationRepository.getAllInvitationIds();
+         if(invitationIds.length > 0){
+            await invitation.acceptInvitation.execute({
+                invitationId: invitationIds[invitationIds.length - 1]!
+            });
+            console.log("Invitation accepted successfully...");
+         }
          
     } catch (error) {
         console.log(error);
