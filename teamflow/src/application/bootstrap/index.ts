@@ -69,6 +69,27 @@ const acceptInvitationUseCase = new AcceptInvitationUseCase(invitationRepository
 const createInvitationUseCase = new CreateInvitationUseCase(invitationRepository);
 const revokeInvitationUseCase = new RevokeInvitationUseCase(invitationRepository);
 const expiredInvitationUseCase = new ExpiredInvitationUseCase(invitationRepository);
+
+//Comment
+import CommentDomain from "../../domains/operational/comment/comment";
+import InMemoryCommentRepository from "../../infra/repository/in-memory/inMemoryCommentRepo";
+const commentRepository = new InMemoryCommentRepository();
+
+//Comment use cases
+import CreateCommentUseCase from "../use-case/comment-usecase/create-comment-usecase";
+import EditContentUseCase from "../use-case/comment-usecase/edit-content-usecase";
+import DeleteCommentUseCase from "../use-case/comment-usecase/delete-comment-usecase";
+const createCommentUseCase = new CreateCommentUseCase(commentRepository);
+const editContentUseCase = new EditContentUseCase(commentRepository);
+const deleteCommentUseCase = new DeleteCommentUseCase(commentRepository);
+
+
+//Comment use cases instances
+export const comment= {
+    createComment: createCommentUseCase,
+    
+}
+
 //invitation use cases instances
 export const invitation= {
     acceptInvitation: acceptInvitationUseCase,
@@ -101,4 +122,4 @@ export const project= {
         restoreProject: restoreProjectUseCase,
         removeTaskFromProject: removeTaskFromProjectUseCase,
 }
-export{workspaceRepository, projectRepository, taskRepository, invitationRepository};
+export{workspaceRepository, projectRepository, taskRepository, invitationRepository, commentRepository};

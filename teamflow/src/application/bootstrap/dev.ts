@@ -1,5 +1,5 @@
 import { workspace,workspaceRepository ,project,projectRepository,
-    task,taskRepository,invitation,invitationRepository} from "./index";
+    task,taskRepository,invitation,invitationRepository,comment} from "./index";
 import WorkspaceDomain from "../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace";
 import InvitationDomain from "../../domains/lifecycle/invitation/invitation";
 async function main() {
@@ -166,6 +166,15 @@ async function main() {
             });
             console.log("Invitation expired successfully...");
          }
+
+         //creating a comment
+         await comment.createComment.execute({
+            content: "Test Comment",
+            taskId: taskIds[taskIds.length - 1]!,
+            projectId: projectIds[projectIds.length - 1]!,
+            authorId: "123"
+         });
+         console.log("Comment created successfully...");
    
     } catch (error) {
         console.log(error);
