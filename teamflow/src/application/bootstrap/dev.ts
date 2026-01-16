@@ -191,6 +191,13 @@ async function main() {
             });
             console.log("Comment edited successfully...");
         }
+        //deleting the comment
+        if(commentIds.length > 0){
+            await comment.deleteComment.execute({
+                commentId: commentIds[commentIds.length - 1]!
+            });
+            console.log("Comment deleted successfully...");
+        }
     } catch (error) {
         console.log(error);
 
