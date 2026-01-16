@@ -7,7 +7,7 @@ class InMemoryInvitationRepository {
         this.store = new Map();
     }
 
-    async save(invitation: InvitationDomain): Promise<void> {
+    async save(invitation: InstanceType<typeof InvitationDomain>): Promise<void> {
         this.store.set(invitation["props"].id, invitation);
         return Promise.resolve();
     }

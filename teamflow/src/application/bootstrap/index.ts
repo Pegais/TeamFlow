@@ -63,12 +63,41 @@ const completeTaskUseCase = new CompleteTaskUseCase(taskRepository);
 //invitation use cases
 import AcceptInvitationUseCase from "../use-case/invitation/accept-invitation-usecase";
 import CreateInvitationUseCase from "../use-case/invitation/create-invitation-usecase";
+import RevokeInvitationUseCase from "../use-case/invitation/revoke-invitation-usecase";
+import ExpiredInvitationUseCase from "../use-case/invitation/expired-invitation-usecase";
 const acceptInvitationUseCase = new AcceptInvitationUseCase(invitationRepository);
 const createInvitationUseCase = new CreateInvitationUseCase(invitationRepository);
+const revokeInvitationUseCase = new RevokeInvitationUseCase(invitationRepository);
+const expiredInvitationUseCase = new ExpiredInvitationUseCase(invitationRepository);
+
+//Comment
+import CommentDomain from "../../domains/operational/comment/comment";
+import InMemoryCommentRepository from "../../infra/repository/in-memory/inMemoryCommentRepo";
+const commentRepository = new InMemoryCommentRepository();
+
+//Comment use cases
+import CreateCommentUseCase from "../use-case/comment-usecase/create-comment-usecase";
+import EditContentUseCase from "../use-case/comment-usecase/edit-content-usecase";
+import DeleteCommentUseCase from "../use-case/comment-usecase/delete-comment-usecase";
+const createCommentUseCase = new CreateCommentUseCase(commentRepository);
+const editContentUseCase = new EditContentUseCase(commentRepository);
+const deleteCommentUseCase = new DeleteCommentUseCase(commentRepository);
+
+
+//Comment use cases instances
+export const comment= {
+    createComment: createCommentUseCase,
+    editComment: editContentUseCase,
+    deleteComment: deleteCommentUseCase,
+    
+}
+
 //invitation use cases instances
 export const invitation= {
     acceptInvitation: acceptInvitationUseCase,
     createInvitation: createInvitationUseCase,
+    revokeInvitation: revokeInvitationUseCase,
+    expiredInvitation: expiredInvitationUseCase,
 }
 
 //tasks
@@ -95,4 +124,4 @@ export const project= {
         restoreProject: restoreProjectUseCase,
         removeTaskFromProject: removeTaskFromProjectUseCase,
 }
-export{workspaceRepository, projectRepository, taskRepository, invitationRepository};
+export{workspaceRepository, projectRepository, taskRepository, invitationRepository, commentRepository};

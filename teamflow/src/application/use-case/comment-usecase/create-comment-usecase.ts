@@ -20,7 +20,7 @@ class CreateCommentUseCase{
         try {
 
             if((!command.taskId && !command.projectId)||(command.taskId && command.projectId)){
-                throw new Error('Comment must be associated with either a task or a project');
+                throw new Error('Comment must be associated with either a task or a project but not both');
             }
             const comment=CommentDomain.create({
                 id:uuidv4(),
