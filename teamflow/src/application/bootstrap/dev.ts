@@ -1,15 +1,17 @@
-import { workspace,workspaceRepository ,project,projectRepository,
-    task,taskRepository,invitation,invitationRepository,comment} from "./index";
+import {
+    workspace, workspaceRepository, project, projectRepository,
+    task, taskRepository, invitation, invitationRepository, comment
+} from "./index";
 import WorkspaceDomain from "../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace";
 import InvitationDomain from "../../domains/lifecycle/invitation/invitation";
 async function main() {
     console.log("Starting the application");
     //create a workspace
     const newWorkspace = WorkspaceDomain.create("owner-1", "Test Workspace", "Test Description");
-   //save the created workspace to the repository
-   await workspaceRepository.save(newWorkspace);
-   console.log("Workspace saved:", newWorkspace["props"].id);
-   //add a member to the workspace
+    //save the created workspace to the repository
+    await workspaceRepository.save(newWorkspace);
+    console.log("Workspace saved:", newWorkspace["props"].id);
+    //add a member to the workspace
     try {
         await workspace.addWorkspaceMember.execute({
             workspaceId: newWorkspace["props"].id,
@@ -31,47 +33,47 @@ async function main() {
         });
         console.log("Workspace deleted successfully...");
         //create a project
-       await project.createProject.execute({
+        await project.createProject.execute({
             name: "Test Project",
             workspaceId: newWorkspace["props"].id
         });
         console.log("Project created successfully...");
         //archive the project
-       //get all project ids
+        //get all project ids
 
-       //creating a task and passing it to the project ;
-       await task.createTask.execute({
-        title: "Test Task",
-        description: "Test Description",
-        assigneeId: "123"
-       });
-       console.log("Task created successfully...");
-       let taskIds=taskRepository.getAllTaskIds();
-       let projectIds=projectRepository.getAllPorjectIds();
-       console.log("Project ids:",projectIds);
-       //adding task to project
-       if(projectIds.length > 0 && taskIds.length > 0){   
-       await project.addTaskToProject.execute({
-            projectId: projectIds[projectIds.length - 1]!,
-            taskId: taskIds[taskIds.length - 1]!
+        //creating a task and passing it to the project ;
+        await task.createTask.execute({
+            title: "Test Task",
+            description: "Test Description",
+            assigneeId: "123"
+        });
+        console.log("Task created successfully...");
+        let taskIds = taskRepository.getAllTaskIds();
+        let projectIds = projectRepository.getAllPorjectIds();
+        console.log("Project ids:", projectIds);
+        //adding task to project
+        if (projectIds.length > 0 && taskIds.length > 0) {
+            await project.addTaskToProject.execute({
+                projectId: projectIds[projectIds.length - 1]!,
+                taskId: taskIds[taskIds.length - 1]!
             });
             console.log("Task added to project successfully...");
         }
 
         //starting the task
-        if(taskIds.length > 0){
+        if (taskIds.length > 0) {
             await task.startTask.execute({
                 taskId: taskIds[taskIds.length - 1]!
             });
             console.log("Task started successfully...");
         }
-       //archive the project
-       if(projectIds.length > 0){
-        await project.archiveProject.execute({
-            projectId: projectIds[projectIds.length - 1]!,
-            
-        });
-       }
+        //archive the project
+        if (projectIds.length > 0) {
+            await project.archiveProject.execute({
+                projectId: projectIds[projectIds.length - 1]!,
+
+            });
+        }
         console.log("Project archived successfully...");
         //adding a task to acrhived project;
         // await project.addTaskToProject.execute({
@@ -100,7 +102,7 @@ async function main() {
         // console.log("Trying to add task to deleted project...");
 
         //rename the project
-        if(projectIds.length > 0){
+        if (projectIds.length > 0) {
             await project.renameProject.execute({
                 projectId: projectIds[projectIds.length - 1]!,
                 newName: "Test Project 2"
@@ -109,7 +111,7 @@ async function main() {
         console.log("Project renamed successfully...");
 
         //restore the archived project
-        if(projectIds.length > 0){
+        if (projectIds.length > 0) {
             await project.restoreProject.execute({
                 projectId: projectIds[projectIds.length - 1]!,
             });
@@ -117,7 +119,7 @@ async function main() {
         }
 
         //remove task from the project
-        if(projectIds.length > 0){
+        if (projectIds.length > 0) {
             await project.removeTaskFromProject.execute({
                 projectId: projectIds[projectIds.length - 1]!,
                 taskId: "123"
@@ -126,7 +128,7 @@ async function main() {
         }
 
         //completing the task
-        if(taskIds.length > 0){
+        if (taskIds.length > 0) {
             await task.completeTask.execute({
                 taskId: taskIds[taskIds.length - 1]!
             });
@@ -134,16 +136,16 @@ async function main() {
         }
 
 
-         //creating an invitation
-         await invitation.createInvitation.execute({
+        //creating an invitation
+        await invitation.createInvitation.execute({
             email: "test@example.com",
             role: "member",
             workspaceId: newWorkspace["props"].id
-         });
-         console.log("Invitation created successfully...");  
+        });
+        console.log("Invitation created successfully...");
 
         //  //accepting the invitation
-         let invitationIds=invitationRepository.getAllInvitationIds();
+        let invitationIds = invitationRepository.getAllInvitationIds();
         //  if(invitationIds.length > 0){
         //     await invitation.acceptInvitation.execute({
         //         invitationId: invitationIds[invitationIds.length - 1]!
@@ -151,31 +153,36 @@ async function main() {
         //     console.log("Invitation accepted successfully...");
         //  }
 
-         //revoking the invitation
-         if(invitationIds.length > 0){
+        //revoking the invitation
+        if (invitationIds.length > 0) {
             await invitation.revokeInvitation.execute({
                 invitationId: invitationIds[invitationIds.length - 1]!
             });
             console.log("Invitation revoked successfully...");
-         }
-         
-         //expiring the invitation
-         if(invitationIds.length > 0){
+        }
+
+        //expiring the invitation
+        if (invitationIds.length > 0) {
             await invitation.expiredInvitation.execute({
                 invitationId: invitationIds[invitationIds.length - 1]!
             });
             console.log("Invitation expired successfully...");
-         }
+        }
 
-         //creating a comment
-         await comment.createComment.execute({
-            content: "Test Comment",
-            taskId: taskIds[taskIds.length - 1]!,
-            projectId: projectIds[projectIds.length - 1]!,
-            authorId: "123"
-         });
-         console.log("Comment created successfully...");
-   
+        //creating a comment
+        if (taskIds.length > 0 && projectIds.length > 0) {
+            console.log(taskIds, "taskids", projectIds, "projectids");
+
+            await comment.createComment.execute({
+                content: "Test Comment",
+                taskId:null,
+                projectId: projectIds[projectIds.length - 1]!,
+                authorId: "123"
+            });
+            console.log("Comment created successfully...");
+        }
+
+
     } catch (error) {
         console.log(error);
 
