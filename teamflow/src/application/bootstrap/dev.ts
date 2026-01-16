@@ -1,6 +1,7 @@
 import {
     workspace, workspaceRepository, project, projectRepository,
-    task, taskRepository, invitation, invitationRepository, comment
+    task, taskRepository, invitation, invitationRepository, comment,
+    commentRepository
 } from "./index";
 import WorkspaceDomain from "../../domains/coretruthDomain/user/workspaceDomains/workspace/workspace";
 import InvitationDomain from "../../domains/lifecycle/invitation/invitation";
@@ -181,8 +182,15 @@ async function main() {
             });
             console.log("Comment created successfully...");
         }
-
-
+        //editing the comment
+        let commentIds = commentRepository.getAllCommentIds();
+        if(commentIds.length > 0){
+            await comment.editComment.execute({
+                commentId: commentIds[commentIds.length - 1]!,
+                newContent: "Test Comment 2"
+            });
+            console.log("Comment edited successfully...");
+        }
     } catch (error) {
         console.log(error);
 

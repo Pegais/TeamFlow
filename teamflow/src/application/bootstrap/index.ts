@@ -87,6 +87,8 @@ const deleteCommentUseCase = new DeleteCommentUseCase(commentRepository);
 //Comment use cases instances
 export const comment= {
     createComment: createCommentUseCase,
+    editComment: editContentUseCase,
+    deleteComment: deleteCommentUseCase,
     
 }
 
