@@ -63,12 +63,18 @@ const completeTaskUseCase = new CompleteTaskUseCase(taskRepository);
 //invitation use cases
 import AcceptInvitationUseCase from "../use-case/invitation/accept-invitation-usecase";
 import CreateInvitationUseCase from "../use-case/invitation/create-invitation-usecase";
+import RevokeInvitationUseCase from "../use-case/invitation/revoke-invitation-usecase";
+import ExpiredInvitationUseCase from "../use-case/invitation/expired-invitation-usecase";
 const acceptInvitationUseCase = new AcceptInvitationUseCase(invitationRepository);
 const createInvitationUseCase = new CreateInvitationUseCase(invitationRepository);
+const revokeInvitationUseCase = new RevokeInvitationUseCase(invitationRepository);
+const expiredInvitationUseCase = new ExpiredInvitationUseCase(invitationRepository);
 //invitation use cases instances
 export const invitation= {
     acceptInvitation: acceptInvitationUseCase,
     createInvitation: createInvitationUseCase,
+    revokeInvitation: revokeInvitationUseCase,
+    expiredInvitation: expiredInvitationUseCase,
 }
 
 //tasks

@@ -150,7 +150,16 @@ async function main() {
             });
             console.log("Invitation accepted successfully...");
          }
-         
+
+         //revoking the invitation
+         if(invitationIds.length > 0){
+            await invitation.revokeInvitation.execute({
+                invitationId: invitationIds[invitationIds.length - 1]!
+            });
+            console.log("Invitation revoked successfully...");
+         }
+
+   
     } catch (error) {
         console.log(error);
 
